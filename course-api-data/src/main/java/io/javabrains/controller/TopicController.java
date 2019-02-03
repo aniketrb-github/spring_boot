@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.javabrains.entity.Topic;
@@ -44,22 +43,30 @@ public class TopicController {
 		return topicService.createTopic(topic);
 	}
 	
-	// getTopic
 	@GetMapping(path = "/{id}")
 	public @ResponseBody Topic getTopicById(@PathVariable Long id) throws TopicException {
 		// @PathVariable means it is a parameter from the GET Request
 		return topicService.getTopicById(id);
 	}
 	
-	// updateTopic
 	@PutMapping(path = "/{id}")
 	public @ResponseBody String updateTopic(@RequestBody Topic topic, @PathVariable Long id) throws TopicException {
 		return topicService.updateTopic(topic, id);
 	}
 	
-	// deleteTopic
 	@DeleteMapping(path = "/{id}")
 	public @ResponseBody String deleteTopicById(@PathVariable Long id) throws TopicException {
 		return topicService.deleteTopicById(id);
+	}
+	
+	@GetMapping(path = "/name/{name}")
+	public @ResponseBody Topic getTopicByName(@PathVariable String name) throws TopicException {
+		return topicService.getTopicByName(name);
+	}
+	
+	@GetMapping(path = "/{id}/name/{name}")
+	public @ResponseBody Topic getTopicByIdAndName(@PathVariable Long id, @PathVariable String name)
+			throws TopicException {
+		return topicService.getTopicByIdAndName(name, id);
 	}
 }
