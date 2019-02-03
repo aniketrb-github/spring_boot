@@ -24,3 +24,11 @@
         "description": "JavaScript in Action"
     }
 ]
+
+# Below are some API's which are used in this demo
+GET: http://localhost:8080/topics
+GET: http://localhost:8080/topics/19502
+GET: http://localhost:8080/topics/19502/name/Java1Script
+PUT: http://localhost:8080/topics/19500
+DELETE: http://localhost:8080/topics/19500
+POST: http://localhost:8080/topics
