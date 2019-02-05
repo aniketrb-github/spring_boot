@@ -1,5 +1,9 @@
 package org.arb_tech.web.entity.base;
 
+/**
+ *
+ * @author Aniket.Bharsakale
+ */
 public class SoftDelete extends BaseEntity {
 	private boolean deleted;
 

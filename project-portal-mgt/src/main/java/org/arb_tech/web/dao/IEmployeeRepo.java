@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.arb_tech.web.dao;
 
 import org.arb_tech.web.entity.Employee;

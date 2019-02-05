@@ -5,6 +5,10 @@ import javax.persistence.Table;
 
 import org.arb_tech.web.entity.base.SoftDelete;
 
+/**
+ *
+ * @author Aniket.Bharsakale
+ */
 @Entity
 @Table(name = "tbl_employees")
 public class Employee extends SoftDelete {

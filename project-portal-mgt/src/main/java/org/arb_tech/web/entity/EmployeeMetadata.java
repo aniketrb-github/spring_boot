@@ -3,6 +3,10 @@ package org.arb_tech.web.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author Aniket.Bharsakale
+ */
 @Entity
 @Table(name = "tbl_employee_metadata")
 public class EmployeeMetadata {
