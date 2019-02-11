@@ -1,12 +1,16 @@
 package org.arb_tech.web.entity.base;
 
+import javax.persistence.Column;
+
 /**
- *
+ * SoftDelete acts as the Base Class 
  * @author Aniket.Bharsakale
  */
 public class SoftDelete extends BaseEntity {
-	private boolean deleted;
+	
+	protected boolean deleted;
 
+	@Column(name = "deleted", nullable = false)
 	public boolean isDeleted() {
 		return deleted;
 	}

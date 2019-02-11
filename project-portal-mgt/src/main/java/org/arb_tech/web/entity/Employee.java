@@ -1,12 +1,15 @@
 package org.arb_tech.web.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.arb_tech.web.entity.base.SoftDelete;
 
 /**
- *
+ * Employee Entity which corresponds to "tbl_employees" in Database
  * @author Aniket.Bharsakale
  */
 @Entity
@@ -15,9 +18,10 @@ public class Employee extends SoftDelete {
 	private String name;
 	private String designation;
 	private String platform;
-	private String image;
 	private Project projectId;
+	private String email;
 
+	@Column(name = "name", nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -26,6 +30,7 @@ public class Employee extends SoftDelete {
 		this.name = name;
 	}
 
+	@Column(name = "designation", nullable = false)
 	public String getDesignation() {
 		return designation;
 	}
@@ -34,6 +39,7 @@ public class Employee extends SoftDelete {
 		this.designation = designation;
 	}
 
+	@Column(name = "platform", nullable = true)
 	public String getPlatform() {
 		return platform;
 	}
@@ -42,14 +48,8 @@ public class Employee extends SoftDelete {
 		this.platform = platform;
 	}
 
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
+	@ManyToOne
+	@JoinColumn(name = "project_id", nullable = false)
 	public Project getProjectId() {
 		return projectId;
 	}
@@ -57,4 +57,14 @@ public class Employee extends SoftDelete {
 	public void setProjectId(Project projectId) {
 		this.projectId = projectId;
 	}
+
+	@Column(name = "email", nullable = false, unique = true)
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 }
