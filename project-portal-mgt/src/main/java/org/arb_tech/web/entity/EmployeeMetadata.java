@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- *
+ * EmployeeMetadata entity which corresponds to table: tbl_employee_metadata in database
  * @author Aniket.Bharsakale
  */
 @Entity

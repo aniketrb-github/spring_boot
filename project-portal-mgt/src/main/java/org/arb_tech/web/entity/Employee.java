@@ -2,24 +2,46 @@ package org.arb_tech.web.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.arb_tech.web.entity.base.SoftDelete;
-
 /**
- * Employee Entity which corresponds to "tbl_employees" in Database
+ * Employee entity which corresponds to table: tbl_employees in database
  * @author Aniket.Bharsakale
  */
 @Entity
 @Table(name = "tbl_employees")
-public class Employee extends SoftDelete {
+public class Employee {
+	private Integer id;
+	private boolean deleted;
 	private String name;
 	private String designation;
 	private String platform;
 	private Project projectId;
 	private String email;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	@Column(name = "deleted", nullable = false)
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 	@Column(name = "name", nullable = false)
 	public String getName() {
