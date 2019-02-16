@@ -1,5 +1,5 @@
 package org.arb_tech.web.entity;
-
+/*
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +13,8 @@ import javax.persistence.Table;
  * Employee entity which corresponds to table: tbl_employees in database
  * @author Aniket.Bharsakale
  */
+
+/*
 @Entity
 @Table(name = "tbl_employees")
 public class Employee {
@@ -90,3 +92,4 @@ public class Employee {
 	}
 
 }
+*/

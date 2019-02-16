@@ -1,2 +1,2 @@
 
-								<< Spring Boot Application >>
+	<< Project Portal Management - Spring Boot Application >>

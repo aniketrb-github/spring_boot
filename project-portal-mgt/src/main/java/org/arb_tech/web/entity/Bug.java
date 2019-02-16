@@ -11,6 +11,7 @@ import javax.persistence.Table;
  * Bug entity which corresponds to table: tbl_bugs in database
  * @author Aniket.Bharsakale
  */
+/*
 @Entity
 @Table(name = "tbl_bugs")
 public class Bug {
@@ -41,6 +42,7 @@ public class Bug {
 		this.deleted = deleted;
 	}
 
+	@Column(name = "name", nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -49,6 +51,7 @@ public class Bug {
 		this.name = name;
 	}
 
+	@Column(name = "description", nullable = false)
 	public String getDescription() {
 		return description;
 	}
@@ -81,3 +84,4 @@ public class Bug {
 		this.employeeId = employeeId;
 	}
 }
+*/

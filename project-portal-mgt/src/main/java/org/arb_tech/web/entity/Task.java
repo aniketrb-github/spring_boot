@@ -1,5 +1,5 @@
 package org.arb_tech.web.entity;
-
+/*
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,6 +13,7 @@ import javax.persistence.Table;
  * Task entity which corresponds to table: tbl_tasks in database
  * @author Aniket.Bharsakale
  */
+/*
 @Entity
 @Table(name = "tbl_tasks")
 public class Task {
@@ -74,3 +75,4 @@ public class Task {
 		this.projectId = projectId;
 	}
 }
+*/

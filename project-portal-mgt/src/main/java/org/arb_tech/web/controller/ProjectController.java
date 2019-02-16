@@ -4,11 +4,16 @@ import java.util.List;
 
 import org.arb_tech.web.entity.Project;
 import org.arb_tech.web.service.IProjectService;
-import org.arb_tech.web.service.handler.IApplicationServiceHandler;
+import org.arb_tech.web.vo.ProjectVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,19 +29,32 @@ public class ProjectController {
 	
 	private static Logger log = LoggerFactory.getLogger(ProjectController.class);
 	
-	// temporary injection | later use the ApplicationServiceHandler object 
-	// Controllers(actions) -> ApplicationServiceHandler -> ServiceLayer
 	@Autowired
 	private IProjectService projectService;
 	
-	@Autowired
-	private IApplicationServiceHandler appService;
-	
 	@GetMapping
 	public @ResponseBody List<Project> getAllProjects() {
-		//return appService.process(ACTION.GET_ALL_PROJECTS, null);
-
-		log.info("<<<<[ Executing ProjectController -> getAllProjects() ]>>>>");
+		log.info("<<<< executing [ ProjectController -> getAllProjects() ] >>>>");
 		return projectService.getAllProjects();
+	}
+	
+	@PostMapping
+	public @ResponseBody String createProject (@RequestBody ProjectVO projectVo) {
+		return projectService.createProject(projectVo);
+	}
+	
+	@GetMapping(path = "/{projectId}")
+	public @ResponseBody ProjectVO getProjectById(@PathVariable Integer projectId) {
+		return projectService.getProjectById(projectId);
+	}
+	
+	@PutMapping(path = "/{projectId}")
+	public @ResponseBody String updateProjectById(@PathVariable Integer projectId, @RequestBody ProjectVO projectVO) {
+		return projectService.updateProjectById(projectId, projectVO);
+	}
+	
+	@DeleteMapping("/{projectId}")
+	public @ResponseBody String deleteProjectById(@PathVariable Integer projectId) {
+		return projectService.deleteProjectById(projectId);
 	}
 }

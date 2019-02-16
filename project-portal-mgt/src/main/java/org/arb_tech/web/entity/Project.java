@@ -1,5 +1,7 @@
 package org.arb_tech.web.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,19 +9,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.arb_tech.web.entity.base.SoftDelete;
-
 /**
  * Project entity which corresponds to table: tbl_projects in database
  * @author Aniket.Bharsakale
  */
 @Entity
 @Table(name = "tbl_projects")
-public class Project extends SoftDelete {
+public class Project {
 
 	private Integer id;
-	private boolean deleted;
 	private String name;
+	private boolean deleted;
+	private Date startDate;
+	private Date endDate;
+	private Integer resourceStrength;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,4 +51,32 @@ public class Project extends SoftDelete {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Column(name = "start_date", nullable = false)
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	@Column(name = "end_date", nullable = false)
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	@Column(name = "resource_strength", nullable = false)
+	public Integer getResourceStrength() {
+		return resourceStrength;
+	}
+
+	public void setResourceStrength(Integer resourceStrength) {
+		this.resourceStrength = resourceStrength;
+	}
+	
 }

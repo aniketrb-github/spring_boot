@@ -1,5 +1,5 @@
 package org.arb_tech.web.entity;
-
+/*
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,9 +13,10 @@ import org.arb_tech.web.entity.base.SoftDelete;
  * BugStatus entity which corresponds to table: tbl_bug_status in database
  * @author Aniket.Bharsakale
  */
+/*
 @Entity
 @Table(name = "tbl_bug_status")
-public class BugStatus extends SoftDelete {
+public class BugStatus {
 	private Integer id;
 	private boolean deleted;
 	private String name;
@@ -39,6 +40,7 @@ public class BugStatus extends SoftDelete {
 		this.deleted = deleted;
 	}
 
+	@Column(name = "name", nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -47,3 +49,4 @@ public class BugStatus extends SoftDelete {
 		this.name = name;
 	}
 }
+*/

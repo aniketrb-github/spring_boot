@@ -1,5 +1,5 @@
 package org.arb_tech.web.entity;
-
+/*
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -7,6 +7,7 @@ import javax.persistence.Table;
  * EmployeeMetadata entity which corresponds to table: tbl_employee_metadata in database
  * @author Aniket.Bharsakale
  */
+/*
 @Entity
 @Table(name = "tbl_employee_metadata")
 public class EmployeeMetadata {
@@ -39,3 +40,4 @@ public class EmployeeMetadata {
 	}
 
 }
+*/
