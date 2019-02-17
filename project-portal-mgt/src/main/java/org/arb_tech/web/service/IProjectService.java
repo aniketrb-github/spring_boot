@@ -18,9 +18,11 @@ public interface IProjectService {
 
 	public String createProject(ProjectVO projectVO) throws ProjectPortalException;
 	
-	public ProjectVO getProjectById(Integer projectId) throws ProjectPortalException;
+	public ProjectVO getProjectByIdOrCode(Integer projectId, String projectCode) throws ProjectPortalException;
 	
 	public String updateProjectById(Integer projectId, ProjectVO projectVO) throws ProjectPortalException;
 	
 	public String deleteProjectById(Integer projectId) throws ProjectPortalException;
+	
+	public Project getProjectByCode(String projectCode) throws ProjectPortalException;
 }

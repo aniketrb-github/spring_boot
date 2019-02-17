@@ -23,6 +23,16 @@ public class Project {
 	private Date startDate;
 	private Date endDate;
 	private Integer resourceStrength;
+	private String projectCode;
+
+	@Column(name = "project_code", nullable = false)
+	public String getProjectCode() {
+		return projectCode;
+	}
+
+	public void setProjectCode(String projectCode) {
+		this.projectCode = projectCode;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,6 +87,6 @@ public class Project {
 
 	public void setResourceStrength(Integer resourceStrength) {
 		this.resourceStrength = resourceStrength;
-	}
+	}	
 	
 }

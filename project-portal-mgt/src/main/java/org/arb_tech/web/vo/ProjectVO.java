@@ -7,6 +7,7 @@ public class ProjectVO {
 	private Date startDate;
 	private Date endDate;
 	private Integer resourceStrength;
+	private String projectCode;
 
 	public String getName() {
 		return name;
@@ -38,6 +39,14 @@ public class ProjectVO {
 
 	public void setResourceStrength(Integer resourceStrength) {
 		this.resourceStrength = resourceStrength;
+	}
+
+	public String getProjectCode() {
+		return projectCode;
+	}
+
+	public void setProjectCode(String projectCode) {
+		this.projectCode = projectCode;
 	}
 
 }

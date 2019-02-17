@@ -44,11 +44,13 @@ public class ProjectController {
 		return projectService.createProject(projectVo);
 	}
 
-	@GetMapping(path = "/{projectId}")
-	public @ResponseBody ProjectVO getProjectById(@PathVariable Integer projectId) {
+	/*// FIXME: issue with mapping /projects?projectId=1?projectCode?LF_VST
+	@GetMapping
+	public @ResponseBody ProjectVO getProjectByIdOrCode(@RequestParam(value = "projectId", required = false) Integer projectId,
+			@RequestParam(value = "projectCode", required = false) String projectCode) {
 		log.info("<<<< executing [ ProjectController -> getProjectById() ] >>>>");
-		return projectService.getProjectById(projectId);
-	}
+		return projectService.getProjectByIdOrCode(projectId, projectCode);
+	}*/
 
 	@PutMapping(path = "/{projectId}")
 	public @ResponseBody String updateProjectById(@PathVariable Integer projectId, @RequestBody ProjectVO projectVO) {
