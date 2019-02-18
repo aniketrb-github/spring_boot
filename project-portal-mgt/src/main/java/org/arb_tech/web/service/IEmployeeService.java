@@ -13,9 +13,7 @@ public interface IEmployeeService {
 
 	public Employee createEmployee(EmployeeVO employeeVO) throws ProjectPortalException;
 
-	public List<EmployeeVO> getAllEmployees() throws ProjectPortalException;
-
-	public EmployeeVO getEmployeeById(Integer employeeId) throws ProjectPortalException;
+	public List<EmployeeVO> getEmployees(Integer id) throws ProjectPortalException;
 
 	public Employee updateEmployeeById(Integer employeeId, EmployeeVO employeeVO) throws ProjectPortalException;
 

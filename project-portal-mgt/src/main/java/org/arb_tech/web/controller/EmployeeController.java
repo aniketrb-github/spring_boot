@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,22 +30,17 @@ public class EmployeeController {
 	private IEmployeeService employeeService;
 
 	@PostMapping
-	public @ResponseBody Employee createEmployee (@RequestBody EmployeeVO employeeVO) {
+	public @ResponseBody Employee createEmployee(@RequestBody EmployeeVO employeeVO) {
 		return employeeService.createEmployee(employeeVO);
 	}
 
 	@GetMapping
-	public @ResponseBody List<EmployeeVO> getAllEmployees() {
-		return employeeService.getAllEmployees();
-	}
-
-	@GetMapping(path = "/{id}")
-	public @ResponseBody EmployeeVO getEmployeeById (@PathVariable Integer id) {
-		return employeeService.getEmployeeById(id);
+	public @ResponseBody List<EmployeeVO> getEmployees(@RequestParam(value = "id", required = false) Integer id) {
+		return employeeService.getEmployees(id);
 	}
 
 	@PutMapping(path = "/{id}")
-	public @ResponseBody Employee updateEmployeeById (@PathVariable Integer id, @RequestBody EmployeeVO employeeVO) {
+	public @ResponseBody Employee updateEmployeeById(@PathVariable Integer id, @RequestBody EmployeeVO employeeVO) {
 		return employeeService.updateEmployeeById(id, employeeVO);
 	}
 
@@ -52,5 +48,5 @@ public class EmployeeController {
 	public @ResponseBody String deleteEmployeeById(@PathVariable Integer id) {
 		return employeeService.deleteEmployeeById(id);
 	}
-	
+
 }

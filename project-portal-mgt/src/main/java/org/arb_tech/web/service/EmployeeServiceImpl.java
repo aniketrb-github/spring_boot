@@ -1,6 +1,7 @@
 package org.arb_tech.web.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,46 +62,43 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	@Override
-	public List<EmployeeVO> getAllEmployees() throws ProjectPortalException {
-		List<Employee> empList = employeeRepo.findAll();
+	public List<EmployeeVO> getEmployees(Integer id) throws ProjectPortalException {
+		List<Employee> empList = null;
+		EmployeeVO employeeVO = null;
+		if (null == id) {
+			empList = employeeRepo.findAll();
 
-		if (null != empList && !empList.isEmpty()) {
-			List<EmployeeVO> empVOs = new ArrayList<>();
+			if (null != empList && !empList.isEmpty()) {
+				List<EmployeeVO> empVOs = new ArrayList<>();
 
-			empList.stream().forEach(e -> empVOs.add(new EmployeeVO(e.getName(), e.getDesignation(), e.getPlatform(),
-					e.getProjectId().getProjectCode(), e.getEmail(), e.getJoiningDate() ) ) );
+				empList.stream().forEach(e -> empVOs.add(new EmployeeVO(e.getName(), e.getDesignation(),
+						e.getPlatform(), e.getProjectId().getProjectCode(), e.getEmail(), e.getJoiningDate())));
 
-			System.out.println("using forEach():\n" + empVOs);
+				System.out.println("using forEach():\n" + empVOs);
 
-			empList.stream().map(e -> empVOs.add(new EmployeeVO(e.getName(), e.getDesignation(), e.getPlatform(),
-					e.getProjectId().getProjectCode(), e.getEmail(), e.getJoiningDate())));
+				empList.stream().map(e -> empVOs.add(new EmployeeVO(e.getName(), e.getDesignation(), e.getPlatform(),
+						e.getProjectId().getProjectCode(), e.getEmail(), e.getJoiningDate())));
 
-			System.out.println("using map():\n" + empVOs);
-
-			return empVOs;
-		}
-		return null;
-	}
-
-	@Override
-	public EmployeeVO getEmployeeById(Integer employeeId) throws ProjectPortalException {
-		if (null != employeeId) {
-			Optional<Employee> empObject = employeeRepo.findById(employeeId);
+				System.out.println("using map():\n" + empVOs);
+				return empVOs;
+			} else {
+				throw new ProjectPortalException("No Employees found in database.");
+			}
+		} else {
+			Optional<Employee> empObject = employeeRepo.findById(id);
 
 			if (empObject.isPresent()) {
-				EmployeeVO employeeVO = new EmployeeVO();
+				employeeVO = new EmployeeVO();
 				employeeVO.setName(empObject.get().getName());
 				employeeVO.setDesignation(empObject.get().getDesignation());
 				employeeVO.setEmail(empObject.get().getEmail());
 				employeeVO.setPlatform(empObject.get().getPlatform());
 				employeeVO.setProjectCode(empObject.get().getProjectId().getProjectCode());
 				employeeVO.setJoiningDate(empObject.get().getJoiningDate());
-				return employeeVO;
+				return Arrays.asList(employeeVO);
 			} else {
-				throw new ProjectPortalException("Employee not found in database for employee ID: " + employeeId);
+				throw new ProjectPortalException("Employee not found in database for employee ID: " + id);
 			}
-		} else {
-			throw new ProjectPortalException("Employee ID cannot be null or empty!");
 		}
 	}
 
