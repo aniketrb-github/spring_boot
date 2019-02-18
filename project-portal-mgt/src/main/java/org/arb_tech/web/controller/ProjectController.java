@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,9 +34,10 @@ public class ProjectController {
 	private IProjectService projectService;
 
 	@GetMapping
-	public @ResponseBody List<Project> getAllProjects() {
+	public @ResponseBody List<Project> getProjects(@RequestParam(value = "id", required = false) Integer id,
+			@RequestParam(value = "code", required = false) String code) {
 		log.info("<<<< executing [ ProjectController -> getAllProjects() ] >>>>");
-		return projectService.getAllProjects();
+		return projectService.getProjects(id, code);
 	}
 
 	@PostMapping
@@ -43,14 +45,6 @@ public class ProjectController {
 		log.info("<<<< executing [ ProjectController -> createProject() ] >>>>");
 		return projectService.createProject(projectVo);
 	}
-
-	/*// FIXME: issue with mapping /projects?projectId=1?projectCode?LF_VST
-	@GetMapping
-	public @ResponseBody ProjectVO getProjectByIdOrCode(@RequestParam(value = "projectId", required = false) Integer projectId,
-			@RequestParam(value = "projectCode", required = false) String projectCode) {
-		log.info("<<<< executing [ ProjectController -> getProjectById() ] >>>>");
-		return projectService.getProjectByIdOrCode(projectId, projectCode);
-	}*/
 
 	@PutMapping(path = "/{projectId}")
 	public @ResponseBody String updateProjectById(@PathVariable Integer projectId, @RequestBody ProjectVO projectVO) {

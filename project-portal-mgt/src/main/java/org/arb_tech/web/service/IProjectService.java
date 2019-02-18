@@ -14,15 +14,12 @@ import org.arb_tech.web.vo.ProjectVO;
  * @author Aniket.Bharsakale
  */
 public interface IProjectService {
-	public List<Project> getAllProjects() throws ProjectPortalException;
+	public List<Project> getProjects(Integer projectId, String projectCode) throws ProjectPortalException;
 
 	public String createProject(ProjectVO projectVO) throws ProjectPortalException;
-	
-	public ProjectVO getProjectByIdOrCode(Integer projectId, String projectCode) throws ProjectPortalException;
 	
 	public String updateProjectById(Integer projectId, ProjectVO projectVO) throws ProjectPortalException;
 	
 	public String deleteProjectById(Integer projectId) throws ProjectPortalException;
 	
-	public Project getProjectByCode(String projectCode) throws ProjectPortalException;
 }

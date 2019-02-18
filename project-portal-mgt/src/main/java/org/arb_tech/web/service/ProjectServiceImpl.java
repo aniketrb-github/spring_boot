@@ -1,5 +1,6 @@
 package org.arb_tech.web.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +21,32 @@ public class ProjectServiceImpl implements IProjectService {
 	@Autowired
 	private IProjectRepo projectRepo;
 
-	public List<Project> getAllProjects() {
-		return projectRepo.findAll();
+	public List<Project> getProjects(Integer projectId, String projectCode) {
+
+		if (null == projectId && null == projectCode) {
+			// GET ALL PROJECTS
+			return projectRepo.findAll();
+			
+		} else if (null != projectId) {
+			
+			// GET PROJECT BY ID
+			Optional<Project> object = projectRepo.findById(projectId);
+
+			if (object.isPresent()) {
+				return Arrays.asList(object.get());
+			} else {
+				throw new ProjectPortalException("Project not found in database with project id: " + projectId);
+			}
+		} else {
+			
+			// GET PROJECT BY CODE
+			Project project = projectRepo.getProjectByProjectCode(projectCode);
+			if (null != project) {
+				return Arrays.asList(project);
+			} else {
+				throw new ProjectPortalException("Project with project code:" + projectCode + " not found in database.");
+			}
+		}
 	}
 
 	@Override
@@ -43,46 +68,6 @@ public class ProjectServiceImpl implements IProjectService {
 			return "Project: " + project.getName() + " created & saved in database.";
 		else
 			return "Project not created in database.";
-	}
-
-	@Override
-	public ProjectVO getProjectByIdOrCode(Integer projectId, String projectCode) throws ProjectPortalException {
-		ProjectVO projectVO = null;
-		
-		// If we receive projectId from UI
-		if (null != projectId) {
-			Optional<Project> object = projectRepo.findById(projectId);
-
-			if (object.isPresent()) {
-				projectVO = new ProjectVO();
-				projectVO.setName(object.get().getName());
-				projectVO.setResourceStrength(object.get().getResourceStrength());
-				projectVO.setStartDate(object.get().getStartDate());
-				projectVO.setEndDate(object.get().getEndDate());
-				projectVO.setProjectCode(object.get().getProjectCode());
-				return projectVO;
-			} else {
-				throw new ProjectPortalException("Project not found in database with project id: "+projectId);
-			}
-		
-		// if we receive projectCode from UI
-		} else if(null != projectCode && !projectCode.isEmpty()) {
-		
-			Project project = projectRepo.getProjectByProjectCode(projectCode);
-			if(null != project) {
-				projectVO = new ProjectVO();
-				projectVO.setName(project.getName());
-				projectVO.setResourceStrength(project.getResourceStrength());
-				projectVO.setStartDate(project.getStartDate());
-				projectVO.setEndDate(project.getEndDate());
-				projectVO.setProjectCode(project.getProjectCode());
-				return projectVO;
-			} else {
-				throw new ProjectPortalException("Project with proejct code:" + projectCode + " not found in database.");
-			}
-		} else {
-			throw new ProjectPortalException("Project ID and ProjectCode both received as NULL.");
-		}
 	}
 
 	@Override
@@ -125,17 +110,5 @@ public class ProjectServiceImpl implements IProjectService {
 		} else {
 			throw new ProjectPortalException("Project ID cannot be null.");
 		}
-	}
-
-	@Override
-	public Project getProjectByCode(String projectCode) throws ProjectPortalException {
-		if(null != projectCode && !projectCode.isEmpty()) {
-			Project project = projectRepo.getProjectByProjectCode(projectCode);
-			if(null != project) {
-				return project;
-			} else {
-				throw new ProjectPortalException("Project with proejct code:" + projectCode + " not found in database.");
-			}
-		} else throw new ProjectPortalException("Project Code cannot be null or empty");
 	}
 }
