@@ -1,5 +1,5 @@
 package org.arb_tech.web.entity;
-/*
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -7,22 +7,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  * Task entity which corresponds to table: tbl_tasks in database
  * @author Aniket.Bharsakale
  */
-/*
 @Entity
 @Table(name = "tbl_tasks")
 public class Task {
 	private Integer id;
-	private boolean deleted;
 	private String name;
+	private boolean deleted;
+	private String description;
+	private Project projectId;
 	private Date startDate;
 	private Date endDate;
-	private Project projectId;
+	private Employee assignedTo;
+	private Employee reportedBy;
+	private Status taskStatus;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +48,7 @@ public class Task {
 		this.deleted = deleted;
 	}
 
+	@Column(name = "name", nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -51,6 +57,7 @@ public class Task {
 		this.name = name;
 	}
 
+	@Column(name = "start_date", nullable = true)
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -59,6 +66,7 @@ public class Task {
 		this.startDate = startDate;
 	}
 
+	@Column(name = "end_date", nullable = true)
 	public Date getEndDate() {
 		return endDate;
 	}
@@ -67,6 +75,8 @@ public class Task {
 		this.endDate = endDate;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "project_id", nullable = false)
 	public Project getProjectId() {
 		return projectId;
 	}
@@ -74,5 +84,43 @@ public class Task {
 	public void setProjectId(Project projectId) {
 		this.projectId = projectId;
 	}
+
+	@Column(name = "description", nullable = false)
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "assigned_to", nullable = false)
+	public Employee getAssignedTo() {
+		return assignedTo;
+	}
+
+	public void setAssignedTo(Employee assignedTo) {
+		this.assignedTo = assignedTo;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "reported_by", nullable = false)
+	public Employee getReportedBy() {
+		return reportedBy;
+	}
+
+	public void setReportedBy(Employee reportedBy) {
+		this.reportedBy = reportedBy;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "task_status", nullable = false)
+	public Status getTaskStatus() {
+		return taskStatus;
+	}
+
+	public void setTaskStatus(Status taskStatus) {
+		this.taskStatus = taskStatus;
+	}
 }
-*/

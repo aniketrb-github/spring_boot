@@ -1,5 +1,5 @@
 package org.arb_tech.web.entity;
-/*
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,16 +7,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.arb_tech.web.entity.base.SoftDelete;
-
 /**
- * BugStatus entity which corresponds to table: tbl_bug_status in database
+ * Status entity which corresponds to table: tbl_status in database
+ * OPEN, IN PROGRESS, RESOLVED, CLOSED
  * @author Aniket.Bharsakale
  */
-/*
+
 @Entity
-@Table(name = "tbl_bug_status")
-public class BugStatus {
+@Table(name = "tbl_status")
+public class Status {
 	private Integer id;
 	private boolean deleted;
 	private String name;
@@ -49,4 +48,3 @@ public class BugStatus {
 		this.name = name;
 	}
 }
-*/
