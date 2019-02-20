@@ -25,8 +25,8 @@ public class Task {
 	private Project projectId;
 	private Date startDate;
 	private Date endDate;
-	private Employee assignedTo;
-	private Employee reportedBy;
+	private Employee assigneeId;
+	private Employee reporterId;
 	private Status taskStatus;
 
 	@Id
@@ -85,33 +85,13 @@ public class Task {
 		this.projectId = projectId;
 	}
 
-	@Column(name = "description", nullable = false)
+	@Column(name = "description", nullable = true)
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	@ManyToOne
-	@JoinColumn(name = "assigned_to", nullable = false)
-	public Employee getAssignedTo() {
-		return assignedTo;
-	}
-
-	public void setAssignedTo(Employee assignedTo) {
-		this.assignedTo = assignedTo;
-	}
-
-	@ManyToOne
-	@JoinColumn(name = "reported_by", nullable = false)
-	public Employee getReportedBy() {
-		return reportedBy;
-	}
-
-	public void setReportedBy(Employee reportedBy) {
-		this.reportedBy = reportedBy;
 	}
 
 	@ManyToOne
@@ -122,5 +102,25 @@ public class Task {
 
 	public void setTaskStatus(Status taskStatus) {
 		this.taskStatus = taskStatus;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "assigned_to", nullable = false)
+	public Employee getAssigneeId() {
+		return assigneeId;
+	}
+
+	public void setAssigneeId(Employee assigneeId) {
+		this.assigneeId = assigneeId;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "reported_by", nullable = false)
+	public Employee getReporterId() {
+		return reporterId;
+	}
+
+	public void setReporterId(Employee reporterId) {
+		this.reporterId = reporterId;
 	}
 }
