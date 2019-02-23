@@ -1,17 +1,21 @@
 package org.arb_tech.web.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  * Bug entity which corresponds to table: tbl_bugs in database
+ * 
  * @author Aniket.Bharsakale
  */
-/*
 @Entity
 @Table(name = "tbl_bugs")
 public class Bug {
@@ -19,9 +23,13 @@ public class Bug {
 	private boolean deleted;
 	private String name;
 	private String description;
+	private Project projectId;
 	private Task taskId;
-	private BugStatus bugStatusId;
-	private Employee employeeId;
+	private Status statusId;
+	private Employee assigneeId;
+	private Employee reporterId;
+	private Date startDate;
+	private Date endDate;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,6 +68,8 @@ public class Bug {
 		this.description = description;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "task_id", nullable = false)
 	public Task getTaskId() {
 		return taskId;
 	}
@@ -68,20 +78,61 @@ public class Bug {
 		this.taskId = taskId;
 	}
 
-	public BugStatus getBugStatusId() {
-		return bugStatusId;
+	@ManyToOne
+	@JoinColumn(name = "status_id", nullable = false)
+	public Status getStatusId() {
+		return statusId;
 	}
 
-	public void setBugStatusId(BugStatus bugStatusId) {
-		this.bugStatusId = bugStatusId;
+	public void setStatusId(Status statusId) {
+		this.statusId = statusId;
 	}
 
-	public Employee getEmployeeId() {
-		return employeeId;
+	@ManyToOne
+	@JoinColumn(name = "project_id", nullable = false)
+	public Project getProjectId() {
+		return projectId;
 	}
 
-	public void setEmployeeId(Employee employeeId) {
-		this.employeeId = employeeId;
+	public void setProjectId(Project projectId) {
+		this.projectId = projectId;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "assignee_id", nullable = false)
+	public Employee getAssigneeId() {
+		return assigneeId;
+	}
+
+	public void setAssigneeId(Employee assigneeId) {
+		this.assigneeId = assigneeId;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "reporter_id", nullable = false)
+	public Employee getReporterId() {
+		return reporterId;
+	}
+
+	public void setReporterId(Employee reporterId) {
+		this.reporterId = reporterId;
+	}
+
+	@Column(name = "start_date", nullable = false)
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	@Column(name = "end_date", nullable = false)
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 }
-*/

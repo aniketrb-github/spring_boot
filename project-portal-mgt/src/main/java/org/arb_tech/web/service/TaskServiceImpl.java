@@ -91,10 +91,8 @@ public class TaskServiceImpl implements ITaskService {
 
 	@Override
 	public Task createTask(TaskVO taskVO) {
-		Task taskEntity = null;
 		if (null != taskVO) {
-			taskEntity = new Task();
-			return this.updateOrSaveTaskEntity(taskVO, taskEntity);
+			return this.updateOrSaveTaskEntity(taskVO, new Task());
 		} else {
 			throw new ProjectPortalException(
 					"Task Object received:" + taskVO + ".\nTask to be created cannot be null.");
@@ -164,7 +162,8 @@ public class TaskServiceImpl implements ITaskService {
 		if (null != taskVO.getEndDate())
 			taskEntity.setEndDate(taskVO.getEndDate());
 
-		taskEntity.setName(taskVO.getName());
+		if(null != taskVO.getName() )
+			taskEntity.setName(taskVO.getName());
 
 		if (null != taskVO.getDescription())
 			taskEntity.setDescription(taskVO.getDescription());
