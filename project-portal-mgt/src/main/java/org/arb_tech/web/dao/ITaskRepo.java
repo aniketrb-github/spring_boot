@@ -2,7 +2,9 @@ package org.arb_tech.web.dao;
 
 import java.util.List;
 
+import org.arb_tech.web.entity.Employee;
 import org.arb_tech.web.entity.Project;
+import org.arb_tech.web.entity.Status;
 import org.arb_tech.web.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -19,9 +21,9 @@ public interface ITaskRepo extends JpaRepository<Task, Integer> {
 
 	public List<Task> getProjectTasksByProjectId(Project projectId);
 
-	public List<Task> getEmployeeTasksByAssigneeId(Integer assigneeId);
+	public List<Task> getEmployeeTasksByAssigneeId(Employee assignee);
 	
-	public List<Task> getEmployeeTasksByReporterId(Integer reporterId);
+	public List<Task> getEmployeeTasksByReporterId(Employee reporter);
 	
-	public List<Task> getEmployeeTasksByStatusId(Integer statusId);
+	public List<Task> getEmployeeTasksByStatusId(Status status);
 }

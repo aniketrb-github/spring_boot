@@ -43,7 +43,7 @@ public class TaskServiceImpl implements ITaskService {
 		List<Task> taskList = null;
 		Optional<Employee> optEmployee = null;
 
-		if (null == projectCode && null == assigneeId && null == reporterId) {
+		if (null == projectCode && null == assigneeId && null == reporterId && null == statusId) {
 
 			// Get all tasks from the database - no filter
 			taskList = taskRepo.findAll();
@@ -62,7 +62,7 @@ public class TaskServiceImpl implements ITaskService {
 			// Get all tasks assigned to this employee only
 			optEmployee = employeeRepo.findById(assigneeId);
 			if (optEmployee.isPresent())
-				taskList = taskRepo.getEmployeeTasksByAssigneeId(optEmployee.get().getId());
+				taskList = taskRepo.getEmployeeTasksByAssigneeId(optEmployee.get());
 			else
 				throw new ProjectPortalException("Employee with emplooyeeID:" + assigneeId + " not found in database");
 
@@ -71,13 +71,15 @@ public class TaskServiceImpl implements ITaskService {
 			// Get all tasks reported by this employee only
 			optEmployee = employeeRepo.findById(reporterId);
 			if (optEmployee.isPresent())
-				taskList = taskRepo.getEmployeeTasksByReporterId(optEmployee.get().getId());
+				taskList = taskRepo.getEmployeeTasksByReporterId(optEmployee.get());
 			else
 				throw new ProjectPortalException("Employee with emplooyeeID:" + reporterId + " not found in database");
 		} else if(null != statusId) {
+			
+			// Get all tasks which have this task status name  
 			status = statusRepo.findById(statusId).get();
 			if(null != status) {
-				taskList = taskRepo.getEmployeeTasksByStatusId(status.getId());
+				taskList = taskRepo.getEmployeeTasksByStatusId(status);
 			} else {
 				throw new ProjectPortalException("Such Project Status is not available in the application."
 						+ "\nPlease select some other suitable proejct status.");
