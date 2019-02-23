@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * View layer object for Task entity
+ * 
  * @author Aniket.Bharsakale
  */
 public class TaskVO {
@@ -14,7 +15,7 @@ public class TaskVO {
 	private Date endDate;
 	private Integer assigneeId;
 	private Integer reporterId;
-	private String taskStatus;
+	private Integer statusId;
 
 	public String getName() {
 		return name;
@@ -72,23 +73,27 @@ public class TaskVO {
 		this.reporterId = reporterId;
 	}
 
-	public String getTaskStatus() {
-		return taskStatus;
+	public Integer getStatusId() {
+		return statusId;
 	}
 
-	public void setTaskStatus(String taskStatus) {
-		this.taskStatus = taskStatus;
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
+	}
+
+	public TaskVO() {
+		super();
 	}
 
 	@Override
 	public String toString() {
 		return "TaskVO [name=" + name + ", description=" + description + ", projectCode=" + projectCode + ", startDate="
 				+ startDate + ", endDate=" + endDate + ", assigneeId=" + assigneeId + ", reporterId=" + reporterId
-				+ ", taskStatus=" + taskStatus + "]";
+				+ ", statusId=" + statusId + "]";
 	}
 
 	public TaskVO(String name, String description, String projectCode, Date startDate, Date endDate, Integer assigneeId,
-			Integer reporterId, String taskStatus) {
+			Integer reporterId, Integer statusId) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -97,11 +102,7 @@ public class TaskVO {
 		this.endDate = endDate;
 		this.assigneeId = assigneeId;
 		this.reporterId = reporterId;
-		this.taskStatus = taskStatus;
-	}
-
-	public TaskVO() {
-		super();
+		this.statusId = statusId;
 	}
 
 }

@@ -10,7 +10,7 @@ import org.arb_tech.web.vo.TaskVO;
  * @author Aniket.Bharsakale
  */
 public interface ITaskService {
-	public List<Task> getTasks(String projectCode, Integer assigneeId, Integer reporterId);
+	public List<Task> getTasks(String projectCode, Integer assigneeId, Integer reporterId, Integer statusId);
 	
 	public Task createTask(TaskVO taskVO);
 	

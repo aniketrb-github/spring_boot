@@ -27,7 +27,7 @@ public class Task {
 	private Date endDate;
 	private Employee assigneeId;
 	private Employee reporterId;
-	private Status taskStatus;
+	private Status statusId;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -95,16 +95,6 @@ public class Task {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "task_status", nullable = false)
-	public Status getTaskStatus() {
-		return taskStatus;
-	}
-
-	public void setTaskStatus(Status taskStatus) {
-		this.taskStatus = taskStatus;
-	}
-
-	@ManyToOne
 	@JoinColumn(name = "assigned_to", nullable = false)
 	public Employee getAssigneeId() {
 		return assigneeId;
@@ -122,5 +112,15 @@ public class Task {
 
 	public void setReporterId(Employee reporterId) {
 		this.reporterId = reporterId;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "task_status", nullable = false)
+	public Status getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(Status statusId) {
+		this.statusId = statusId;
 	}
 }

@@ -37,8 +37,9 @@ public class TaskServiceImpl implements ITaskService {
 	private IStatusRepo statusRepo;
 
 	@Override
-	public List<Task> getTasks(String projectCode, Integer assigneeId, Integer reporterId) {
-		Project project = null;
+	public List<Task> getTasks(String projectCode, Integer assigneeId, Integer reporterId, Integer statusId) {
+		Project projectId = null;
+		Status status = null;
 		List<Task> taskList = null;
 		Optional<Employee> optEmployee = null;
 
@@ -50,9 +51,9 @@ public class TaskServiceImpl implements ITaskService {
 		} else if (null != projectCode && !projectCode.isEmpty()) {
 
 			// Get all tasks related to this project only
-			project = projectRepo.getProjectByProjectCode(projectCode);
-			if (null != project)
-				taskList = taskRepo.getProjectTasksByProjectId(project.getId());
+			projectId = projectRepo.getProjectByProjectCode(projectCode);
+			if (null != projectId)
+				taskList = taskRepo.getProjectTasksByProjectId(projectId);
 			else
 				throw new ProjectPortalException("Project with projectCode:" + projectCode + " does not exist.");
 
@@ -73,6 +74,14 @@ public class TaskServiceImpl implements ITaskService {
 				taskList = taskRepo.getEmployeeTasksByReporterId(optEmployee.get().getId());
 			else
 				throw new ProjectPortalException("Employee with emplooyeeID:" + reporterId + " not found in database");
+		} else if(null != statusId) {
+			status = statusRepo.findById(statusId).get();
+			if(null != status) {
+				taskList = taskRepo.getEmployeeTasksByStatusId(status.getId());
+			} else {
+				throw new ProjectPortalException("Such Project Status is not available in the application."
+						+ "\nPlease select some other suitable proejct status.");
+			}
 		}
 
 		return (null != taskList && !taskList.isEmpty()) ? taskList : null;
@@ -129,10 +138,10 @@ public class TaskServiceImpl implements ITaskService {
 				taskEntity.setProjectId(project);
 		}
 
-		if (null != taskVO.getTaskStatus()) {
-			taskStatus = statusRepo.getStatusByName(taskVO.getTaskStatus());
+		if (null != taskVO.getStatusId()) {
+			taskStatus = statusRepo.findById(taskVO.getStatusId()).get();
 			if (null != taskStatus)
-				taskEntity.setTaskStatus(taskStatus);
+				taskEntity.setStatusId(taskStatus);
 		}
 
 		if (null != taskVO.getAssigneeId()) {
