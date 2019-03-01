@@ -12,4 +12,7 @@ public class ApplicationConstants {
 		GET_ALL_TASKS, GET_TASK, CREATE_TASK,
 		GET_ALL_BUGS, GET_BUG, CREATE_BUG, UPDATE_BUG;
 	}
+	
+	public static final String UTF8_CHARSET_NAME= "UTF-8";
+	public static final String MESSAGES = "messages";
 }
