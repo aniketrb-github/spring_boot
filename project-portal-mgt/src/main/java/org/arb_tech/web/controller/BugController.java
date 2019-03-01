@@ -1,11 +1,18 @@
 package org.arb_tech.web.controller;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.arb_tech.web.entity.Bug;
 import org.arb_tech.web.service.IBugService;
+import org.arb_tech.web.util.JsonResponse;
+import org.arb_tech.web.util.Messages;
 import org.arb_tech.web.vo.BugVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,29 +36,46 @@ public class BugController {
 	@Autowired
 	private IBugService bugService;
 
+	@Autowired
+	private MessageSource messageSource;
+
+	protected String resolveLocalizedMessage(String messageCode) {
+		Locale currentLocale = LocaleContextHolder.getLocale();
+		String localizedErrorMessage = messageSource.getMessage(messageCode, new Object[] {}, currentLocale);
+		return localizedErrorMessage;
+	}
+    
 	@GetMapping
-	public @ResponseBody List<Bug> getBugs(@RequestParam(name = "statusId", required = false) Integer statusId,
+	public @ResponseBody ResponseEntity<?> getBugs(@RequestParam(name = "statusId", required = false) Integer statusId,
 			@RequestParam(name = "taskId", required = false) Integer taskId,
 			@RequestParam(name = "assigneeId", required = false) Integer assigneeId,
 			@RequestParam(name = "reporterId", required = false) Integer reporterId,
 			@RequestParam(name = "projectCode", required = false) String projectCode) {
 
-		return bugService.getBugs(statusId, taskId, assigneeId, reporterId, projectCode);
+		List<Bug> bugsList = bugService.getBugs(statusId, taskId, assigneeId, reporterId, projectCode);
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
+				   resolveLocalizedMessage(Messages.MESSAGE_OK), bugsList)); 
 	}
 
 	@PostMapping
-	public @ResponseBody Bug createBug(@RequestBody BugVO bugVO) {
-		return bugService.createBug(bugVO);
+	public @ResponseBody ResponseEntity<?> createBug(@RequestBody BugVO bugVO) {
+		Bug bug = bugService.createBug(bugVO);
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
+				   resolveLocalizedMessage(Messages.MESSAGE_OK), bug));
 	}
 
 	@PutMapping(path = "/{bugId}")
-	public @ResponseBody Bug updateBug(@PathVariable Integer bugId, @RequestBody BugVO bugVO) {
-		return bugService.updateBug(bugId, bugVO);
+	public @ResponseBody ResponseEntity<?> updateBug(@PathVariable Integer bugId, @RequestBody BugVO bugVO) {
+		Bug bug = bugService.updateBug(bugId, bugVO);
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
+				   resolveLocalizedMessage(Messages.MESSAGE_OK), bug));
 	}
 
 	@DeleteMapping(path = "/{bugId}")
-	public String deleteBug(@PathVariable Integer bugId) {
-		return bugService.deleteBug(bugId);
+	public ResponseEntity<?> deleteBug(@PathVariable Integer bugId) {
+		String response = bugService.deleteBug(bugId);
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
+				   resolveLocalizedMessage(Messages.MESSAGE_OK), response));
 	}
 
 }

@@ -1,5 +1,6 @@
 package org.arb_tech.web;
 
+import org.arb_tech.web.util.ApplicationConstants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.MessageSource;
@@ -20,8 +21,8 @@ public class ProjectPortalMgtApp {
 	@Bean
 	public MessageSource messageSource() {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-		messageSource.setBasenames("messages");
-		messageSource.setDefaultEncoding("UTF-8");
+		messageSource.setBasenames(ApplicationConstants.MESSAGES);
+		messageSource.setDefaultEncoding(ApplicationConstants.UTF8_CHARSET_NAME);
 		return messageSource;
 	}
 }
