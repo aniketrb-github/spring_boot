@@ -9,9 +9,15 @@ import org.arb_tech.web.dao.IEmployeeRepo;
 import org.arb_tech.web.dao.IProjectRepo;
 import org.arb_tech.web.entity.Employee;
 import org.arb_tech.web.entity.Project;
+import org.arb_tech.web.exception.ProjectException;
 import org.arb_tech.web.exception.ProjectPortalException;
+import org.arb_tech.web.util.JsonResponse;
+import org.arb_tech.web.util.MessageResolver;
+import org.arb_tech.web.util.Messages;
 import org.arb_tech.web.vo.EmployeeVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,11 +31,16 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private IEmployeeRepo employeeRepo;
 
 	@Autowired
+	private MessageResolver msgResolver;
+	
+	@Autowired
 	private IProjectRepo projectRepo;
 
 	@Override
-	public Employee createEmployee(EmployeeVO empVO) throws ProjectPortalException {
+	public ResponseEntity<?> createEmployee(EmployeeVO empVO) throws ProjectException {
 		Project projectEntity = null;
+		Employee employee = null;
+		ResponseEntity<?> response = null;
 		if (null != empVO) {
 
 			// if user enters invalid projectCode we don't create an employee
@@ -37,34 +48,38 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				projectEntity = projectRepo.getProjectByProjectCode(empVO.getProjectCode());
 
 				if (null != projectEntity) {
-					Employee emp = new Employee();
-					emp.setName(empVO.getName());
-					emp.setDesignation(empVO.getDesignation());
-					emp.setEmail(empVO.getEmail());
-					emp.setPlatform(empVO.getPlatform());
-					emp.setProjectId(projectEntity);
-					emp.setJoiningDate(empVO.getJoiningDate());
-					employeeRepo.save(emp);
-					return emp;
+					employee = new Employee();
+					employee.setName(empVO.getName());
+					employee.setDesignation(empVO.getDesignation());
+					employee.setEmail(empVO.getEmail());
+					employee.setPlatform(empVO.getPlatform());
+					employee.setProjectId(projectEntity);
+					employee.setJoiningDate(empVO.getJoiningDate());
+					employee = employeeRepo.save(employee);
+					response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+							Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), employee, null));
 				} else {
-					throw new ProjectPortalException("Error: Cannot create the desired employee!"
-							+ "\nProjectCode:" + empVO.getProjectCode()+ " is null or not found in database."
-							+ "\nProject code should be a valid code & the same Project should be available in database.");
+					response = ResponseEntity.status(HttpStatus.NOT_FOUND)
+							.body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(), Messages.PROJECT_NOT_FOUND,
+									msgResolver.resolveLocalizedMessage(Messages.PROJECT_NOT_FOUND)));
 				}
 			} else {
-				throw new ProjectPortalException(
-						"Error: Cannot create the desired employee!" + "\nProject code cannot be null!");
+				throw new ProjectException(Messages.PROJECT_CODE_NULL, HttpStatus.NOT_FOUND.toString(),
+						msgResolver.resolveLocalizedMessage(Messages.PROJECT_CODE_NULL));
 			}
 		} else {
-			throw new ProjectPortalException("Error in creating the desired employee in database!"
-					+ "\nEmployee Object cannot be null or empty.");
+			throw new ProjectPortalException(msgResolver.resolveLocalizedMessage(Messages.EMP_VO_NULL));
 		}
+		return response;
 	}
 
 	@Override
-	public List<EmployeeVO> getEmployees(Integer id) throws ProjectPortalException {
+	public ResponseEntity<?> getEmployees(Integer id) throws ProjectException {
+		ResponseEntity<?> response = null;
 		List<Employee> empList = null;
+		List<EmployeeVO> empVoList = null;
 		EmployeeVO employeeVO = null;
+
 		if (null == id) {
 			empList = employeeRepo.findAll();
 
@@ -74,15 +89,16 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				empList.stream().forEach(e -> empVOs.add(new EmployeeVO(e.getName(), e.getDesignation(),
 						e.getPlatform(), e.getProjectId().getProjectCode(), e.getEmail(), e.getJoiningDate())));
 
-				System.out.println("using forEach():\n" + empVOs);
+				/*
+				 empList.stream().map(e -> empVOs.add(new EmployeeVO(e.getName(),
+				 e.getDesignation(), e.getPlatform(), e.getProjectId().getProjectCode(),
+				 e.getEmail(), e.getJoiningDate())));
+				 */
 
-				empList.stream().map(e -> empVOs.add(new EmployeeVO(e.getName(), e.getDesignation(), e.getPlatform(),
-						e.getProjectId().getProjectCode(), e.getEmail(), e.getJoiningDate())));
-
-				System.out.println("using map():\n" + empVOs);
-				return empVOs;
+				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), empVOs, null));
 			} else {
-				throw new ProjectPortalException("No Employees found in database.");
+				throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.NO_EMP_RECORDS));
 			}
 		} else {
 			Optional<Employee> empObject = employeeRepo.findById(id);
@@ -95,17 +111,21 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				employeeVO.setPlatform(empObject.get().getPlatform());
 				employeeVO.setProjectCode(empObject.get().getProjectId().getProjectCode());
 				employeeVO.setJoiningDate(empObject.get().getJoiningDate());
-				return Arrays.asList(employeeVO);
+				empVoList = Arrays.asList(employeeVO);
+				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), empVoList, null));
 			} else {
-				throw new ProjectPortalException("Employee not found in database for employee ID: " + id);
+				throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND));
 			}
 		}
+		return response;
 	}
 
 	@Override
-	public Employee updateEmployeeById(Integer employeeId, EmployeeVO employeeVO) throws ProjectPortalException {
-		if (null != employeeId) {
-			Optional<Employee> empObject = employeeRepo.findById(employeeId);
+	public ResponseEntity<?> updateEmployeeById(Integer empId, EmployeeVO employeeVO) throws ProjectException {
+		ResponseEntity<?> response = null;
+		if (null != empId || null != employeeVO) {
+			Optional<Employee> empObject = employeeRepo.findById(empId);
 
 			if (empObject.isPresent()) {
 				Employee empEntity = empObject.get();
@@ -120,8 +140,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 				if (null != employeeVO.getPlatform())
 					empEntity.setPlatform(employeeVO.getPlatform());
-				
-				if(null != employeeVO.getJoiningDate())
+
+				if (null != employeeVO.getJoiningDate())
 					empEntity.setJoiningDate(employeeVO.getJoiningDate());
 
 				if (null != employeeVO.getProjectCode()) {
@@ -131,37 +151,45 @@ public class EmployeeServiceImpl implements IEmployeeService {
 						if (null != project) {
 							empEntity.setProjectId(project);
 						} else {
-							throw new ProjectPortalException("Cannot Update the employee with requested project code."
-									+ "Project code: " + employeeVO.getProjectCode() + " does not exist in database.");
+							response = ResponseEntity.status(HttpStatus.NOT_FOUND)
+									.body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(),
+											Messages.PROJECT_NOT_FOUND,
+											msgResolver.resolveLocalizedMessage(Messages.PROJECT_NOT_FOUND)));
 						}
 					}
 				}
 
-				Employee updatedEmployee = employeeRepo.save(empEntity);
-				return updatedEmployee;
+				Employee updatedEmpEntity = employeeRepo.save(empEntity);
+				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), updatedEmpEntity, null));
 
 			} else {
-				throw new ProjectPortalException(
-						"Requested employee with employee ID: " + employeeId + " not found in database.");
+				throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND));
 			}
 		} else {
-			throw new ProjectPortalException("Error: Employee ID cannot be null or empty!");
+			throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.EMP_VO_NULL));
 		}
+		return response;
 	}
 
 	@Override
-	public String deleteEmployeeById(Integer employeeId) throws ProjectPortalException {
+	public ResponseEntity<?> deleteEmployeeById(Integer employeeId) throws ProjectException {
+		ResponseEntity<?> response = null;
 		if (null != employeeId) {
 			Optional<Employee> empObj = employeeRepo.findById(employeeId);
 			if (empObj.isPresent()) {
 				employeeRepo.delete(empObj.get());
-				return "Employee with employeeId: " + employeeId + " deleted successfully.";
+				response = ResponseEntity.status(HttpStatus.OK)
+						.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
+								msgResolver.resolveLocalizedMessage(Messages.MSG_OK),
+								msgResolver.resolveLocalizedMessage(Messages.EMP_DELETE_SUCCESS), null));
 			} else {
-				throw new ProjectPortalException("Employee with employeeId:" + employeeId + " not found in database.");
+				throw new ProjectException("Employee with employeeId:" + employeeId + " not found in database.");
 			}
 
 		} else {
-			throw new ProjectPortalException("Error: Employee ID cannot be null or empty!");
+			throw new ProjectException("Error: Employee ID cannot be null or empty!");
 		}
+		return response;
 	}
 }
