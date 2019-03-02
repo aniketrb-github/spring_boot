@@ -167,7 +167,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND));
 			}
 		} else {
-			throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.EMP_VO_NULL));
+			throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.EMP_ID_NULL));
 		}
 		return response;
 	}
@@ -184,11 +184,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 								msgResolver.resolveLocalizedMessage(Messages.MSG_OK),
 								msgResolver.resolveLocalizedMessage(Messages.EMP_DELETE_SUCCESS), null));
 			} else {
-				throw new ProjectException("Employee with employeeId:" + employeeId + " not found in database.");
+				throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND));
 			}
 
 		} else {
-			throw new ProjectException("Error: Employee ID cannot be null or empty!");
+			throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.EMP_ID_NULL));
 		}
 		return response;
 	}

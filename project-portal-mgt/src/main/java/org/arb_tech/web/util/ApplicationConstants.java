@@ -15,7 +15,7 @@ public class ApplicationConstants {
 	}
 	
 	// CONTROLLER PATH
-	public static final String EMPLOYEES = "/employee"; 
+	public static final String EMPLOYEES = "/employees"; 
 	public static final String BUGS = "/bugs";
 	public static final String PROJECTS = "/projects";
 	public static final String TASKS = "/tasks";

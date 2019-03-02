@@ -15,5 +15,6 @@ public class Messages {
 	public static final String EMP_NOT_FOUND = "response.emp.not.found";
 	public static final String EMP_DELETE_SUCCESS = "response.emp.deleted.success";
 	public static final String EMP_VO_NULL = "error.emp.vo.null";
+	public static final String EMP_ID_NULL = "error.emp.id.null";
 	public static final String NO_EMP_RECORDS = "error.emp.no.records";
 }
