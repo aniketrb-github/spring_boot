@@ -18,6 +18,7 @@ public class ApplicationConstants {
 	public static final String BUGS = "/bugs";
 	public static final String PROJECTS = "/projects";
 	public static final String TASKS = "/tasks";
+	public static final String PATH_VAR_ID = "/{id}";
 	
 	public static final String UTF8_CHARSET_NAME= "UTF-8";
 	public static final String MESSAGES = "messages";
