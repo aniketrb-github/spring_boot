@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = ApplicationConstants.EMPLOYEES)
 public class EmployeeController {
 
-	private static Logger log = LoggerFactory.getLogger(ProjectController.class);
+	private static Logger log = LoggerFactory.getLogger(EmployeeController.class);
 	
 	@Autowired
 	private IEmployeeService employeeService;

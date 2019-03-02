@@ -9,6 +9,8 @@ import org.arb_tech.web.util.JsonResponse;
 import org.arb_tech.web.util.MessageResolver;
 import org.arb_tech.web.util.Messages;
 import org.arb_tech.web.vo.BugVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = ApplicationConstants.BUGS)
 public class BugController {
+	
+	private static Logger log = LoggerFactory.getLogger(BugController.class);
 
 	@Autowired
 	private IBugService bugService;
@@ -44,7 +48,8 @@ public class BugController {
 			@RequestParam(name = "assigneeId", required = false) Integer assigneeId,
 			@RequestParam(name = "reporterId", required = false) Integer reporterId,
 			@RequestParam(name = "projectCode", required = false) String projectCode) {
-
+		log.info("<<< executing [ BugController -> getBugs() ] >>>");
+		
 		List<Bug> bugsList = bugService.getBugs(statusId, taskId, assigneeId, reporterId, projectCode);
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
 				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), bugsList)); 
@@ -52,6 +57,8 @@ public class BugController {
 
 	@PostMapping
 	public @ResponseBody ResponseEntity<?> createBug(@RequestBody BugVO bugVO) {
+		log.info("<<< executing [ BugController -> createBug() ] >>>");
+		
 		Bug bug = bugService.createBug(bugVO);
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
 				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), bug));
@@ -59,6 +66,8 @@ public class BugController {
 
 	@PutMapping(path = ApplicationConstants.PATH_VAR_ID)
 	public @ResponseBody ResponseEntity<?> updateBug(@PathVariable Integer id, @RequestBody BugVO bugVO) {
+		log.info("<<< executing [ BugController -> updateBug() ] >>>");
+		
 		Bug bug = bugService.updateBug(id, bugVO);
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
 				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), bug));
@@ -66,6 +75,8 @@ public class BugController {
 
 	@DeleteMapping(path = ApplicationConstants.PATH_VAR_ID)
 	public ResponseEntity<?> deleteBug(@PathVariable Integer id) {
+		log.info("<<< executing [ BugController -> deleteBug() ] >>>");
+		
 		String response = bugService.deleteBug(id);
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
 				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), response));

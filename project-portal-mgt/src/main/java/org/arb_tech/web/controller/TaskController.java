@@ -39,7 +39,7 @@ public class TaskController {
 	@Autowired
 	private MessageResolver msgResolver;
 	
-	private static Logger log = LoggerFactory.getLogger(ProjectController.class);
+	private static Logger log = LoggerFactory.getLogger(TaskController.class);
 
 	@GetMapping
 	public @ResponseBody ResponseEntity<?> getTasks(@RequestParam(name = "projectCode", required = false) String projectCode,

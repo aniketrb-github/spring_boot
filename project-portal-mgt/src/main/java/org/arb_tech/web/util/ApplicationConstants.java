@@ -6,6 +6,7 @@ package org.arb_tech.web.util;
  */
 public class ApplicationConstants {
 
+	// METHOD ACTIONS
 	public enum ACTION {
 		GET_ALL_PROJECTS, GET_PROJECT, CREATE_PROJECT,
 		GET_ALL_EMPLOYEES, GET_EMPLOYEE, UPDATE_EMPLOYEE, CREATE_EMPLOYEE,
