@@ -50,7 +50,7 @@ public class ProjectServiceImpl implements IProjectService {
 	}
 
 	@Override
-	public String createProject(ProjectVO projectVO) throws ProjectPortalException {
+	public Project createProject(ProjectVO projectVO) throws ProjectPortalException {
 		Project project = null;
 		if (null != projectVO) {
 			project = new Project();
@@ -65,13 +65,12 @@ public class ProjectServiceImpl implements IProjectService {
 		}
 
 		if (null != project)
-			return "Project: " + project.getName() + " created & saved in database.";
-		else
-			return "Project not created in database.";
+			return project;
+		return project;
 	}
 
 	@Override
-	public String updateProjectById(Integer projectId, ProjectVO projectVO) throws ProjectPortalException {
+	public Project updateProjectById(Integer projectId, ProjectVO projectVO) throws ProjectPortalException {
 		if (null != projectId && null != projectVO) {
 			Optional<Project> object = projectRepo.findById(projectId);
 			if (object.isPresent()) {
@@ -87,14 +86,12 @@ public class ProjectServiceImpl implements IProjectService {
 				if(null != projectVO.getProjectCode())
 					project.setProjectCode(projectVO.getProjectCode());					
 				
-				projectRepo.save(project);
-				
-				return "Project Info. updated successfully in database.";
-			} else
-				return "Project with ID:" + projectId + " is not present/is empty in database. ";
+				return projectRepo.save(project);
+			}
 		} else {
 			throw new ProjectPortalException("ProjecId or the Project tobe updated cannot be NULL.");
 		}
+		return null;
 	}
 
 	@Override

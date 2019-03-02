@@ -16,9 +16,9 @@ import org.arb_tech.web.vo.ProjectVO;
 public interface IProjectService {
 	public List<Project> getProjects(Integer projectId, String projectCode) throws ProjectPortalException;
 
-	public String createProject(ProjectVO projectVO) throws ProjectPortalException;
+	public Project createProject(ProjectVO projectVO) throws ProjectPortalException;
 	
-	public String updateProjectById(Integer projectId, ProjectVO projectVO) throws ProjectPortalException;
+	public Project updateProjectById(Integer projectId, ProjectVO projectVO) throws ProjectPortalException;
 	
 	public String deleteProjectById(Integer projectId) throws ProjectPortalException;
 	
