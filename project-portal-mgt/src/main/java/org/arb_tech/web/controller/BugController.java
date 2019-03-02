@@ -51,8 +51,8 @@ public class BugController {
 		log.info("<<< executing [ BugController -> getBugs() ] >>>");
 		
 		List<Bug> bugsList = bugService.getBugs(statusId, taskId, assigneeId, reporterId, projectCode);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
-				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), bugsList)); 
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
+				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), bugsList)); 
 	}
 
 	@PostMapping
@@ -60,8 +60,8 @@ public class BugController {
 		log.info("<<< executing [ BugController -> createBug() ] >>>");
 		
 		Bug bug = bugService.createBug(bugVO);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
-				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), bug));
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
+				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), bug));
 	}
 
 	@PutMapping(path = ApplicationConstants.PATH_VAR_ID)
@@ -69,8 +69,8 @@ public class BugController {
 		log.info("<<< executing [ BugController -> updateBug() ] >>>");
 		
 		Bug bug = bugService.updateBug(id, bugVO);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
-				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), bug));
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
+				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), bug));
 	}
 
 	@DeleteMapping(path = ApplicationConstants.PATH_VAR_ID)
@@ -78,8 +78,8 @@ public class BugController {
 		log.info("<<< executing [ BugController -> deleteBug() ] >>>");
 		
 		String response = bugService.deleteBug(id);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
-				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), response));
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
+				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), response));
 	}
 
 }

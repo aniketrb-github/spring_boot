@@ -47,8 +47,8 @@ public class EmployeeController {
 		log.info("<<< executing [ EmployeeController -> createEmployee() ] >>>");
 		
 		Employee emp = employeeService.createEmployee(employeeVO);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK, 
-				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), emp, null));
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK, 
+				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), emp, null));
 	}
 
 	@GetMapping
@@ -56,8 +56,8 @@ public class EmployeeController {
 		log.info("<<< executing [ EmployeeController -> getEmployees() ] >>>");
 		
 		List<EmployeeVO> empVoList =  employeeService.getEmployees(id);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK, 
-				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), empVoList, null));
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK, 
+				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), empVoList, null));
 	}
 
 	@PutMapping(path = ApplicationConstants.PATH_VAR_ID)
@@ -65,8 +65,8 @@ public class EmployeeController {
 		log.info("<<< executing [ EmployeeController -> updateEmployeeById() ] >>>");
 		
 		Employee emp = employeeService.updateEmployeeById(id, employeeVO);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK, 
-				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), emp, null));
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK, 
+				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), emp, null));
 	}
 
 	@DeleteMapping(path = ApplicationConstants.PATH_VAR_ID)
@@ -74,8 +74,8 @@ public class EmployeeController {
 		log.info("<<< executing [ EmployeeController -> deleteEmployeeById() ] >>>");
 		
 		String response = employeeService.deleteEmployeeById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK, 
-				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), response, null));
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK, 
+				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), response, null));
 	}
 
 }
