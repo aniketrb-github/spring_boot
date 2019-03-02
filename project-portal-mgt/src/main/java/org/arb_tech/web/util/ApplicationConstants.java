@@ -13,6 +13,12 @@ public class ApplicationConstants {
 		GET_ALL_BUGS, GET_BUG, CREATE_BUG, UPDATE_BUG;
 	}
 	
+	// CONTROLLER PATH
+	public static final String EMPLOYEES = "/employee"; 
+	public static final String BUGS = "/bugs";
+	public static final String PROJECTS = "/projects";
+	public static final String TASKS = "/tasks";
+	
 	public static final String UTF8_CHARSET_NAME= "UTF-8";
 	public static final String MESSAGES = "messages";
 }
