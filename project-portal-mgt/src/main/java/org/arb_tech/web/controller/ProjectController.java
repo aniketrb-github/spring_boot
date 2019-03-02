@@ -1,16 +1,11 @@
 package org.arb_tech.web.controller;
 
-import org.arb_tech.web.entity.Project;
 import org.arb_tech.web.service.IProjectService;
 import org.arb_tech.web.util.ApplicationConstants;
-import org.arb_tech.web.util.JsonResponse;
-import org.arb_tech.web.util.MessageResolver;
-import org.arb_tech.web.util.Messages;
 import org.arb_tech.web.vo.ProjectVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
