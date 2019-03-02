@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.arb_tech.web.entity.Task;
 import org.arb_tech.web.service.ITaskService;
+import org.arb_tech.web.util.ApplicationConstants;
 import org.arb_tech.web.util.JsonResponse;
 import org.arb_tech.web.util.MessageResolver;
 import org.arb_tech.web.util.Messages;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Aniket.Bharsakale
  */
 @RestController
-@RequestMapping(path = "/tasks")
+@RequestMapping(path = ApplicationConstants.TASKS)
 public class TaskController {
 	@Autowired
 	private ITaskService taskService;

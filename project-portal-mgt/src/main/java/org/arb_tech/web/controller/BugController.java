@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.arb_tech.web.entity.Bug;
 import org.arb_tech.web.service.IBugService;
+import org.arb_tech.web.util.ApplicationConstants;
 import org.arb_tech.web.util.JsonResponse;
 import org.arb_tech.web.util.MessageResolver;
 import org.arb_tech.web.util.Messages;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Aniket.Bharsakale
  */
 @RestController
-@RequestMapping(path = "/bugs")
+@RequestMapping(path = ApplicationConstants.BUGS)
 public class BugController {
 
 	@Autowired
