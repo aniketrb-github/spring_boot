@@ -60,7 +60,7 @@ public class EmployeeController {
 				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), empVoList, null));
 	}
 
-	@PutMapping(path = "/{id}")
+	@PutMapping(path = ApplicationConstants.PATH_VAR_ID)
 	public @ResponseBody ResponseEntity<?> updateEmployeeById(@PathVariable Integer id, @RequestBody EmployeeVO employeeVO) {
 		log.info("<<< executing [ EmployeeController -> updateEmployeeById() ] >>>");
 		
@@ -69,7 +69,7 @@ public class EmployeeController {
 				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), emp, null));
 	}
 
-	@DeleteMapping(path = "/{id}")
+	@DeleteMapping(path = ApplicationConstants.PATH_VAR_ID)
 	public @ResponseBody ResponseEntity<?> deleteEmployeeById(@PathVariable Integer id) {
 		log.info("<<< executing [ EmployeeController -> deleteEmployeeById() ] >>>");
 		

@@ -62,20 +62,20 @@ public class TaskController {
 				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), task, null));
 	}
 
-	@PutMapping(path = "/{taskId}")
-	public @ResponseBody ResponseEntity<?> updateTask(@PathVariable Integer taskId, @RequestBody TaskVO taskVO) {
+	@PutMapping(path = ApplicationConstants.PATH_VAR_ID)
+	public @ResponseBody ResponseEntity<?> updateTask(@PathVariable Integer id, @RequestBody TaskVO taskVO) {
 		log.info("<<< executing [ TaskController -> updateTask() ] >>>");
 		
-		Task task  = taskService.createTask(taskVO);
+		Task task  = taskService.updateTask(id, taskVO);
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK, 
 				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), task, null));
 	}
 
-	@DeleteMapping(path = "/{taskId}")
-	public @ResponseBody ResponseEntity<?> deleteTask(@PathVariable Integer taskId) {
+	@DeleteMapping(path = ApplicationConstants.PATH_VAR_ID)
+	public @ResponseBody ResponseEntity<?> deleteTask(@PathVariable Integer id) {
 		log.info("<<< executing [ TaskController -> deleteTask() ] >>>");
 		
-		String response = taskService.deleteTask(taskId);
+		String response = taskService.deleteTask(id);
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK, 
 				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), response, null));
 	}

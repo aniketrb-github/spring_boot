@@ -57,16 +57,16 @@ public class BugController {
 				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), bug));
 	}
 
-	@PutMapping(path = "/{bugId}")
-	public @ResponseBody ResponseEntity<?> updateBug(@PathVariable Integer bugId, @RequestBody BugVO bugVO) {
-		Bug bug = bugService.updateBug(bugId, bugVO);
+	@PutMapping(path = ApplicationConstants.PATH_VAR_ID)
+	public @ResponseBody ResponseEntity<?> updateBug(@PathVariable Integer id, @RequestBody BugVO bugVO) {
+		Bug bug = bugService.updateBug(id, bugVO);
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
 				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), bug));
 	}
 
-	@DeleteMapping(path = "/{bugId}")
-	public ResponseEntity<?> deleteBug(@PathVariable Integer bugId) {
-		String response = bugService.deleteBug(bugId);
+	@DeleteMapping(path = ApplicationConstants.PATH_VAR_ID)
+	public ResponseEntity<?> deleteBug(@PathVariable Integer id) {
+		String response = bugService.deleteBug(id);
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MESSAGE_OK,
 				msgResolver.resolveLocalizedMessage(Messages.MESSAGE_OK), response));
 	}
