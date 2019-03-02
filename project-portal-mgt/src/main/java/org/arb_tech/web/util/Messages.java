@@ -10,4 +10,10 @@ public class Messages {
 	public static final String PROJECT_DELETE_SUCCESS = "response.project.deleted.success";
 	public static final String PROJECT_VO_NULL = "error.project.vo.null";
 	public static final String PROJECT_ID_NULL = "error.project.id.null";
+	public static final String PROJECT_CODE_NULL = "error.project.code.null";
+	
+	public static final String EMP_NOT_FOUND = "response.emp.not.found";
+	public static final String EMP_DELETE_SUCCESS = "response.emp.deleted.success";
+	public static final String EMP_VO_NULL = "error.emp.vo.null";
+	public static final String NO_EMP_RECORDS = "error.emp.no.records";
 }
