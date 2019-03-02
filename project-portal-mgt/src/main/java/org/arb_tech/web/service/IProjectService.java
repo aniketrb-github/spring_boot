@@ -1,10 +1,8 @@
 package org.arb_tech.web.service;
 
-import java.util.List;
-
-import org.arb_tech.web.entity.Project;
 import org.arb_tech.web.exception.ProjectPortalException;
 import org.arb_tech.web.vo.ProjectVO;
+import org.springframework.http.ResponseEntity;
 
 /**
  * interface introduced for more loose coupling in the application at service
@@ -14,12 +12,12 @@ import org.arb_tech.web.vo.ProjectVO;
  * @author Aniket.Bharsakale
  */
 public interface IProjectService {
-	public List<Project> getProjects(Integer projectId, String projectCode) throws ProjectPortalException;
+	public ResponseEntity<?> getProjects(Integer projectId, String projectCode) throws ProjectPortalException;
 
-	public Project createProject(ProjectVO projectVO) throws ProjectPortalException;
-	
-	public Project updateProjectById(Integer projectId, ProjectVO projectVO) throws ProjectPortalException;
-	
-	public String deleteProjectById(Integer projectId) throws ProjectPortalException;
-	
+	public ResponseEntity<?> createProject(ProjectVO projectVO) throws ProjectPortalException;
+
+	public ResponseEntity<?> updateProjectById(Integer projectId, ProjectVO projectVO) throws ProjectPortalException;
+
+	public ResponseEntity<?> deleteProjectById(Integer projectId) throws ProjectPortalException;
+
 }

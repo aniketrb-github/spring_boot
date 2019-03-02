@@ -1,7 +1,5 @@
 package org.arb_tech.web.controller;
 
-import java.util.List;
-
 import org.arb_tech.web.entity.Project;
 import org.arb_tech.web.service.IProjectService;
 import org.arb_tech.web.util.ApplicationConstants;
@@ -39,44 +37,33 @@ public class ProjectController {
 	@Autowired
 	private IProjectService projectService;
 	
-	@Autowired
-	private MessageResolver msgResolver;
-
 	@GetMapping
 	public @ResponseBody ResponseEntity<?> getProjects(
 			@RequestParam(value = ApplicationConstants.PATH_VAR_ID, required = false) Integer id,
 			@RequestParam(value = "code", required = false) String code) {
-		log.info("<<< executing [ ProjectController -> getAllProjects() ] >>>");
 		
-		List<Project> projects = projectService.getProjects(id, code);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
-				Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), projects, null));
+		log.info("<<< executing [ ProjectController -> getAllProjects() ] >>>");
+		return projectService.getProjects(id, code);
 	}
 
 	@PostMapping
 	public @ResponseBody ResponseEntity<?> createProject(@RequestBody ProjectVO projectVo) {
+
 		log.info("<<< executing [ ProjectController -> createProject() ] >>>");
-		
-		Project project = projectService.createProject(projectVo);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK, 
-				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), project, null));
+		return projectService.createProject(projectVo);
 	}
 
 	@PutMapping(path = ApplicationConstants.PATH_VAR_ID)
 	public @ResponseBody ResponseEntity<?> updateProjectById(@PathVariable Integer id, @RequestBody ProjectVO projectVO) {
+
 		log.info("<<< executing [ ProjectController -> updateProjectById() ] >>>");
-		
-		Project project = projectService.updateProjectById(id, projectVO);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK, 
-				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), project, null));
+		return projectService.updateProjectById(id, projectVO);
 	}
 
 	@DeleteMapping(ApplicationConstants.PATH_VAR_ID)
 	public @ResponseBody ResponseEntity<?> deleteProjectById(@PathVariable Integer id) {
+
 		log.info("<<< executing [ ProjectController -> deleteProjectById() ] >>>");
-		
-		String response = projectService.deleteProjectById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK, 
-				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), response, null));
+		return projectService.deleteProjectById(id);
 	}
 }
