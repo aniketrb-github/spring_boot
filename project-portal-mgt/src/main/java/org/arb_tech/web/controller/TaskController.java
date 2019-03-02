@@ -1,18 +1,12 @@
 package org.arb_tech.web.controller;
 
-import java.util.List;
-
-import org.arb_tech.web.entity.Task;
+import org.arb_tech.web.exception.ProjectException;
 import org.arb_tech.web.service.ITaskService;
 import org.arb_tech.web.util.ApplicationConstants;
-import org.arb_tech.web.util.JsonResponse;
-import org.arb_tech.web.util.MessageResolver;
-import org.arb_tech.web.util.Messages;
 import org.arb_tech.web.vo.TaskVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,48 +30,37 @@ public class TaskController {
 	@Autowired
 	private ITaskService taskService;
 	
-	@Autowired
-	private MessageResolver msgResolver;
-	
 	private static Logger log = LoggerFactory.getLogger(TaskController.class);
 
 	@GetMapping
 	public @ResponseBody ResponseEntity<?> getTasks(@RequestParam(name = "projectCode", required = false) String projectCode,
 			@RequestParam(name = "assigneeId", required = false) Integer assigneeId,
 			@RequestParam(name = "reporterId", required = false) Integer reporterId,
-			@RequestParam(name = "statusId", required = false) Integer statusId) {
+			@RequestParam(name = "statusId", required = false) Integer statusId) throws ProjectException {
+
 		log.info("<<< executing [ TaskController -> getTasks() ] >>>");
-		
-		List<Task> tasksList = taskService.getTasks(projectCode, assigneeId, reporterId, statusId);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK, 
-				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), tasksList, null));
+		return taskService.getTasks(projectCode, assigneeId, reporterId, statusId);
 	}
 
 	@PostMapping
-	public @ResponseBody ResponseEntity<?> createTask(@RequestBody TaskVO taskVO) {
+	public @ResponseBody ResponseEntity<?> createTask(@RequestBody TaskVO taskVO) throws ProjectException {
+
 		log.info("<<< executing [ TaskController -> createTask() ] >>>");
-		
-		Task task  = taskService.createTask(taskVO);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK, 
-				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), task, null));
+		return taskService.createTask(taskVO);
 	}
 
 	@PutMapping(path = ApplicationConstants.PATH_VAR_ID)
-	public @ResponseBody ResponseEntity<?> updateTask(@PathVariable Integer id, @RequestBody TaskVO taskVO) {
+	public @ResponseBody ResponseEntity<?> updateTask(@PathVariable Integer id, @RequestBody TaskVO taskVO) throws ProjectException {
+
 		log.info("<<< executing [ TaskController -> updateTask() ] >>>");
-		
-		Task task  = taskService.updateTask(id, taskVO);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK, 
-				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), task, null));
+		return taskService.updateTask(id, taskVO);
 	}
 
 	@DeleteMapping(path = ApplicationConstants.PATH_VAR_ID)
-	public @ResponseBody ResponseEntity<?> deleteTask(@PathVariable Integer id) {
+	public @ResponseBody ResponseEntity<?> deleteTask(@PathVariable Integer id) throws ProjectException {
 		log.info("<<< executing [ TaskController -> deleteTask() ] >>>");
 		
-		String response = taskService.deleteTask(id);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK, 
-				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), response, null));
+		return taskService.deleteTask(id);
 	}
 
 }

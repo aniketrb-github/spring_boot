@@ -11,9 +11,15 @@ import org.arb_tech.web.entity.Employee;
 import org.arb_tech.web.entity.Project;
 import org.arb_tech.web.entity.Status;
 import org.arb_tech.web.entity.Task;
+import org.arb_tech.web.exception.ProjectException;
 import org.arb_tech.web.exception.ProjectPortalException;
+import org.arb_tech.web.util.JsonResponse;
+import org.arb_tech.web.util.MessageResolver;
+import org.arb_tech.web.util.Messages;
 import org.arb_tech.web.vo.TaskVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,9 +41,14 @@ public class TaskServiceImpl implements ITaskService {
 
 	@Autowired
 	private IStatusRepo statusRepo;
+	
+	@Autowired
+	private MessageResolver msgResolver;
 
 	@Override
-	public List<Task> getTasks(String projectCode, Integer assigneeId, Integer reporterId, Integer statusId) {
+	public ResponseEntity<?> getTasks(String projectCode, Integer assigneeId, Integer reporterId, Integer statusId)
+			throws ProjectException {
+		ResponseEntity<?> response = null;
 		Project projectId = null;
 		Status status = null;
 		List<Task> taskList = null;
@@ -47,83 +58,138 @@ public class TaskServiceImpl implements ITaskService {
 
 			// Get all tasks from the database - no filter
 			taskList = taskRepo.findAll();
+			if (null != taskList) {
+				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskList, null));
+			} else {
+				response = ResponseEntity.status(HttpStatus.OK)
+						.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.NO_TASKS_IN_DB,
+								msgResolver.resolveLocalizedMessage(Messages.NO_TASKS_IN_DB), taskList, null));
+			}
 
 		} else if (null != projectCode && !projectCode.isEmpty()) {
 
 			// Get all tasks related to this project only
 			projectId = projectRepo.getProjectByProjectCode(projectCode);
-			if (null != projectId)
+			if (null != projectId) {
 				taskList = taskRepo.getProjectTasksByProjectId(projectId);
-			else
-				throw new ProjectPortalException("Project with projectCode:" + projectCode + " does not exist.");
+			} else {
+				response = ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(), Messages.PROJECT_NOT_FOUND,
+								msgResolver.resolveLocalizedMessage(Messages.PROJECT_NOT_FOUND)));
+			}
+
+			response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+					Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskList, null));
 
 		} else if (null != assigneeId) {
 
 			// Get all tasks assigned to this employee only
 			optEmployee = employeeRepo.findById(assigneeId);
-			if (optEmployee.isPresent())
+			if (optEmployee.isPresent()) {
 				taskList = taskRepo.getEmployeeTasksByAssigneeId(optEmployee.get());
-			else
-				throw new ProjectPortalException("Employee with emplooyeeID:" + assigneeId + " not found in database");
+			} else {
+				response = ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(), Messages.EMP_NOT_FOUND,
+								msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND), null, null));
+			}
+
+			response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+					Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskList, null));
 
 		} else if (null != reporterId) {
 
 			// Get all tasks reported by this employee only
 			optEmployee = employeeRepo.findById(reporterId);
-			if (optEmployee.isPresent())
+			if (optEmployee.isPresent()) {
 				taskList = taskRepo.getEmployeeTasksByReporterId(optEmployee.get());
-			else
-				throw new ProjectPortalException("Employee with emplooyeeID:" + reporterId + " not found in database");
-		} else if(null != statusId) {
-			
-			// Get all tasks which have this task status name  
+			} else {
+				response = ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(), Messages.EMP_NOT_FOUND,
+								msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND), null, null));
+			}
+
+			response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+					Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskList, null));
+
+		} else if (null != statusId) {
+
+			// Get all tasks which have this task status name
 			status = statusRepo.findById(statusId).get();
-			if(null != status) {
+			if (null != status) {
 				taskList = taskRepo.getEmployeeTasksByStatusId(status);
 			} else {
-				throw new ProjectPortalException("Such Project Status is not available in the application."
-						+ "\nPlease select some other suitable proejct status.");
+				response = ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(), Messages.STATUS_NOT_FOUND,
+								msgResolver.resolveLocalizedMessage(Messages.STATUS_NOT_FOUND), null, null));
 			}
+
+			response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+					Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskList, null));
 		}
 
-		return (null != taskList && !taskList.isEmpty()) ? taskList : null;
+		return response;
 	}
 
 	@Override
-	public Task createTask(TaskVO taskVO) {
+	public ResponseEntity<?> createTask(TaskVO taskVO) throws ProjectException {
+		ResponseEntity<?> response = null;
+
 		if (null != taskVO) {
-			return this.updateOrSaveTaskEntity(taskVO, new Task());
+			Task updatedTaskEntity = this.updateOrSaveTaskEntity(taskVO, new Task());
+			response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+					Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), updatedTaskEntity, null));
 		} else {
-			throw new ProjectPortalException(
-					"Task Object received:" + taskVO + ".\nTask to be created cannot be null.");
+			throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.TASK_VO_NULL));
 		}
+
+		return response;
 	}
 
 	@Override
-	public Task updateTask(Integer taskId, TaskVO taskVO) {
-		Task taskEntity = null;
-		if (null != taskId) {
-			taskEntity = taskRepo.findById(taskId).get();
+	public ResponseEntity<?> updateTask(Integer taskId, TaskVO taskVO) throws ProjectException {
+		ResponseEntity<?> response = null;
+
+		if (null != taskId && null != taskVO) {
+			Task taskEntity = taskRepo.findById(taskId).get();
 			if (null != taskEntity) {
-				taskEntity = this.updateOrSaveTaskEntity(taskVO, taskEntity);
+				Task updatedTaskEntity = this.updateOrSaveTaskEntity(taskVO, taskEntity);
+				response = ResponseEntity.status(HttpStatus.OK)
+						.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
+								msgResolver.resolveLocalizedMessage(Messages.MSG_OK), updatedTaskEntity, null));
+			} else {
+				response = ResponseEntity.status(HttpStatus.OK)
+						.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.TASK_NOT_FOUND,
+								msgResolver.resolveLocalizedMessage(Messages.TASK_NOT_FOUND), taskEntity, null));
 			}
+		} else {
+			throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.TASK_VO_NULL));
 		}
-		return taskEntity;
+
+		return response;
 	}
 
 	@Override
-	public String deleteTask(Integer taskId) {
+	public ResponseEntity<?> deleteTask(Integer taskId) {
+		ResponseEntity<?> response = null;
 		Task taskEntity = null;
+
 		if (null != taskId) {
 			taskEntity = taskRepo.findById(taskId).get();
 			if (null != taskEntity) {
 				taskRepo.delete(taskEntity);
-				return "Task deleted successfully with task id: " + taskId;
+				response = ResponseEntity.status(HttpStatus.OK)
+						.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.TASK_DELETE_SUCCESS,
+								msgResolver.resolveLocalizedMessage(Messages.TASK_DELETE_SUCCESS), null, null));
 			} else {
-				return "No such task exist in database for the given task id:" + taskId;
+				response = ResponseEntity.status(HttpStatus.OK)
+						.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.TASK_NOT_FOUND,
+								msgResolver.resolveLocalizedMessage(Messages.TASK_NOT_FOUND), taskEntity, null));
 			}
-		} else
-			throw new ProjectPortalException("Task Id cannot be null.");
+		} else {
+			throw new ProjectPortalException(msgResolver.resolveLocalizedMessage(Messages.TASK_ID_NULL));
+		}
+		return response;
 	}
 
 	public Task updateOrSaveTaskEntity(TaskVO taskVO, Task taskEntity) {
@@ -162,7 +228,7 @@ public class TaskServiceImpl implements ITaskService {
 		if (null != taskVO.getEndDate())
 			taskEntity.setEndDate(taskVO.getEndDate());
 
-		if(null != taskVO.getName() )
+		if (null != taskVO.getName())
 			taskEntity.setName(taskVO.getName());
 
 		if (null != taskVO.getDescription())

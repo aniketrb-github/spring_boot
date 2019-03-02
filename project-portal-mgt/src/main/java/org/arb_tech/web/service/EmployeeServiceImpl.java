@@ -115,7 +115,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
 						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), empVoList, null));
 			} else {
-				throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND));
+				response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(),
+						Messages.EMP_NOT_FOUND, msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND), empVoList, null));
 			}
 		}
 		return response;
@@ -164,7 +165,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), updatedEmpEntity, null));
 
 			} else {
-				throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND));
+				response = ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(), Messages.EMP_NOT_FOUND,
+								msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND), null, null));
 			}
 		} else {
 			throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.EMP_ID_NULL));
@@ -184,7 +187,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 								msgResolver.resolveLocalizedMessage(Messages.MSG_OK),
 								msgResolver.resolveLocalizedMessage(Messages.EMP_DELETE_SUCCESS), null));
 			} else {
-				throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND));
+				response = ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(), Messages.EMP_NOT_FOUND,
+								msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND), null, null));
 			}
 
 		} else {

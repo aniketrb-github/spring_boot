@@ -1,20 +1,19 @@
 package org.arb_tech.web.service;
 
-import java.util.List;
-
-import org.arb_tech.web.entity.Task;
+import org.arb_tech.web.exception.ProjectException;
 import org.arb_tech.web.vo.TaskVO;
+import org.springframework.http.ResponseEntity;
 
 /**
  * task service interface, which contains the skeleton methods of task entity
  * @author Aniket.Bharsakale
  */
 public interface ITaskService {
-	public List<Task> getTasks(String projectCode, Integer assigneeId, Integer reporterId, Integer statusId);
+	public ResponseEntity<?> getTasks(String projectCode, Integer assigneeId, Integer reporterId, Integer statusId) throws ProjectException;
 	
-	public Task createTask(TaskVO taskVO);
+	public ResponseEntity<?> createTask(TaskVO taskVO) throws ProjectException;
 	
-	public Task updateTask(Integer taskId, TaskVO taskVO);
+	public ResponseEntity<?> updateTask(Integer taskId, TaskVO taskVO) throws ProjectException;
 	
-	public String deleteTask(Integer taskId);
+	public ResponseEntity<?> deleteTask(Integer taskId) throws ProjectException;
 }
