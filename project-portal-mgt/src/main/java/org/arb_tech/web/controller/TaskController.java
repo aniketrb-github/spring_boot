@@ -33,10 +33,12 @@ public class TaskController {
 	private static Logger log = LoggerFactory.getLogger(TaskController.class);
 
 	@GetMapping
-	public @ResponseBody ResponseEntity<?> getTasks(@RequestParam(name = "projectCode", required = false) String projectCode,
-			@RequestParam(name = "assigneeId", required = false) Integer assigneeId,
-			@RequestParam(name = "reporterId", required = false) Integer reporterId,
-			@RequestParam(name = "statusId", required = false) Integer statusId) throws ProjectException {
+	public @ResponseBody ResponseEntity<?> getTasks(
+			@RequestParam(name = ApplicationConstants.PROJECT_CODE, required = false) String projectCode,
+			@RequestParam(name = ApplicationConstants.ASSIGNEE_ID, required = false) Integer assigneeId,
+			@RequestParam(name = ApplicationConstants.REPORTER_ID, required = false) Integer reporterId,
+			@RequestParam(name = ApplicationConstants.STATUS_ID, required = false) Integer statusId)
+			throws ProjectException {
 
 		log.info("<<< executing [ TaskController -> getTasks() ] >>>");
 		return taskService.getTasks(projectCode, assigneeId, reporterId, statusId);

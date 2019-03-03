@@ -34,11 +34,13 @@ public class BugController {
 	private IBugService bugService;
 
 	@GetMapping
-	public @ResponseBody ResponseEntity<?> getBugs(@RequestParam(name = "statusId", required = false) Integer statusId,
-			@RequestParam(name = "taskId", required = false) Integer taskId,
-			@RequestParam(name = "assigneeId", required = false) Integer assigneeId,
-			@RequestParam(name = "reporterId", required = false) Integer reporterId,
-			@RequestParam(name = "projectCode", required = false) String projectCode) throws ProjectException {
+	public @ResponseBody ResponseEntity<?> getBugs(
+			@RequestParam(name = ApplicationConstants.STATUS_ID, required = false) Integer statusId,
+			@RequestParam(name = ApplicationConstants.TASK_ID, required = false) Integer taskId,
+			@RequestParam(name = ApplicationConstants.ASSIGNEE_ID, required = false) Integer assigneeId,
+			@RequestParam(name = ApplicationConstants.REPORTER_ID, required = false) Integer reporterId,
+			@RequestParam(name = ApplicationConstants.PROJECT_CODE, required = false) String projectCode)
+			throws ProjectException {
 
 		log.info("<<< executing [ BugController -> getBugs() ] >>>");
 		return bugService.getBugs(statusId, taskId, assigneeId, reporterId, projectCode);

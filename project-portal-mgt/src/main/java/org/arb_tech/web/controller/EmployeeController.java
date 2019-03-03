@@ -41,7 +41,8 @@ public class EmployeeController {
 	}
 
 	@GetMapping
-	public @ResponseBody ResponseEntity<?> getEmployees(@RequestParam(value = "id", required = false) Integer id)
+	public @ResponseBody ResponseEntity<?> getEmployees(
+			@RequestParam(value = ApplicationConstants.REQUEST_PARAM_ID, required = false) Integer id)
 			throws ProjectException {
 
 		log.info("<<< executing [ EmployeeController -> getEmployees() ] >>>");

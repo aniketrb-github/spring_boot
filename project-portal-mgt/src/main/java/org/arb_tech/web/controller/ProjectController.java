@@ -34,7 +34,7 @@ public class ProjectController {
 	
 	@GetMapping
 	public @ResponseBody ResponseEntity<?> getProjects(
-			@RequestParam(value = ApplicationConstants.PATH_VAR_ID, required = false) Integer id,
+			@RequestParam(value = ApplicationConstants.REQUEST_PARAM_ID, required = false) Integer id,
 			@RequestParam(value = "code", required = false) String code) {
 		
 		log.info("<<< executing [ ProjectController -> getAllProjects() ] >>>");
