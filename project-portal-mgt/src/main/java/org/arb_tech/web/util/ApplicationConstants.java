@@ -29,6 +29,7 @@ public class ApplicationConstants {
 	public static final String REPORTER_ID = "reporterId";
 	public static final String ASSIGNEE_ID = "assigneeId";
 	public static final String PROJECT_CODE = "projectCode";
+	public static final String TASK_ID = "taskId";
 	
 	public static final String UTF8_CHARSET_NAME= "UTF-8";
 	public static final String MESSAGES = "messages";
