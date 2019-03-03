@@ -29,4 +29,9 @@ public class Messages {
 	public static final String TASK_ID_NULL = "error.task.id.null";
 	public static final String TASK_NOT_FOUND = "response.task.not.found";
 	public static final String TASK_DELETE_SUCCESS = "response.task.deleted.success";
+	
+	public static final String BUG_NOT_FOUND = "response.bug.not.found";
+	public static final String BUG_VO_NULL = "response.bug.vo.null";
+	public static final String BUG_ID_NULL = "error.bug.id.null";
+	public static final String BUG_DELETED_SUCCESS = "response.bug.deleted.success";
 }
