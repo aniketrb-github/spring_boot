@@ -1,18 +1,12 @@
 package org.arb_tech.web.controller;
 
-import java.util.List;
-
-import org.arb_tech.web.entity.Bug;
+import org.arb_tech.web.exception.ProjectException;
 import org.arb_tech.web.service.IBugService;
 import org.arb_tech.web.util.ApplicationConstants;
-import org.arb_tech.web.util.JsonResponse;
-import org.arb_tech.web.util.MessageResolver;
-import org.arb_tech.web.util.Messages;
 import org.arb_tech.web.vo.BugVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,53 +27,43 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = ApplicationConstants.BUGS)
 public class BugController {
-	
+
 	private static Logger log = LoggerFactory.getLogger(BugController.class);
 
 	@Autowired
 	private IBugService bugService;
-	
-	@Autowired
-	private MessageResolver msgResolver;
-    
+
 	@GetMapping
 	public @ResponseBody ResponseEntity<?> getBugs(@RequestParam(name = "statusId", required = false) Integer statusId,
 			@RequestParam(name = "taskId", required = false) Integer taskId,
 			@RequestParam(name = "assigneeId", required = false) Integer assigneeId,
 			@RequestParam(name = "reporterId", required = false) Integer reporterId,
-			@RequestParam(name = "projectCode", required = false) String projectCode) {
+			@RequestParam(name = "projectCode", required = false) String projectCode) throws ProjectException {
+
 		log.info("<<< executing [ BugController -> getBugs() ] >>>");
-		
-		List<Bug> bugsList = bugService.getBugs(statusId, taskId, assigneeId, reporterId, projectCode);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
-				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), bugsList)); 
+		return bugService.getBugs(statusId, taskId, assigneeId, reporterId, projectCode);
 	}
 
 	@PostMapping
-	public @ResponseBody ResponseEntity<?> createBug(@RequestBody BugVO bugVO) {
+	public @ResponseBody ResponseEntity<?> createBug(@RequestBody BugVO bugVO) throws ProjectException {
+
 		log.info("<<< executing [ BugController -> createBug() ] >>>");
-		
-		Bug bug = bugService.createBug(bugVO);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
-				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), bug));
+		return bugService.createBug(bugVO);
 	}
 
 	@PutMapping(path = ApplicationConstants.PATH_VAR_ID)
-	public @ResponseBody ResponseEntity<?> updateBug(@PathVariable Integer id, @RequestBody BugVO bugVO) {
+	public @ResponseBody ResponseEntity<?> updateBug(@PathVariable Integer id, @RequestBody BugVO bugVO)
+			throws ProjectException {
+
 		log.info("<<< executing [ BugController -> updateBug() ] >>>");
-		
-		Bug bug = bugService.updateBug(id, bugVO);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
-				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), bug));
+		return bugService.updateBug(id, bugVO);
 	}
 
 	@DeleteMapping(path = ApplicationConstants.PATH_VAR_ID)
-	public ResponseEntity<?> deleteBug(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteBug(@PathVariable Integer id) throws ProjectException {
+
 		log.info("<<< executing [ BugController -> deleteBug() ] >>>");
-		
-		String response = bugService.deleteBug(id);
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
-				msgResolver.resolveLocalizedMessage(Messages.MSG_OK), response));
+		return bugService.deleteBug(id);
 	}
 
 }

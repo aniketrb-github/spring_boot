@@ -58,8 +58,8 @@ public class TaskController {
 
 	@DeleteMapping(path = ApplicationConstants.PATH_VAR_ID)
 	public @ResponseBody ResponseEntity<?> deleteTask(@PathVariable Integer id) throws ProjectException {
+
 		log.info("<<< executing [ TaskController -> deleteTask() ] >>>");
-		
 		return taskService.deleteTask(id);
 	}
 
