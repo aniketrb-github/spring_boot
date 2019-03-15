@@ -1,5 +1,6 @@
 package org.arb_tech.web.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,14 +54,16 @@ public class TaskServiceImpl implements ITaskService {
 		Status status = null;
 		List<Task> taskList = null;
 		Optional<Employee> optEmployee = null;
+		List<TaskVO> taskVOList = null;
 
 		if (null == projectCode && null == assigneeId && null == reporterId && null == statusId) {
 
 			// Get all tasks from the database - no filter
 			taskList = taskRepo.findAll();
 			if (null != taskList) {
+				taskVOList = populateTaskVOList(taskList);
 				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
-						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskList, null));
+						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskVOList, null));
 			} else {
 				response = ResponseEntity.status(HttpStatus.OK)
 						.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.NO_TASKS_IN_DB,
@@ -73,62 +76,77 @@ public class TaskServiceImpl implements ITaskService {
 			projectId = projectRepo.getProjectByProjectCode(projectCode);
 			if (null != projectId) {
 				taskList = taskRepo.getProjectTasksByProjectId(projectId);
+				taskVOList = populateTaskVOList(taskList);
+				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskVOList, null));
 			} else {
 				response = ResponseEntity.status(HttpStatus.NOT_FOUND)
 						.body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(), Messages.PROJECT_NOT_FOUND,
 								msgResolver.resolveLocalizedMessage(Messages.PROJECT_NOT_FOUND)));
 			}
-
-			response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
-					Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskList, null));
-
 		} else if (null != assigneeId) {
 
 			// Get all tasks assigned to this employee only
 			optEmployee = employeeRepo.findById(assigneeId);
 			if (optEmployee.isPresent()) {
 				taskList = taskRepo.getEmployeeTasksByAssigneeId(optEmployee.get());
+				taskVOList = populateTaskVOList(taskList);
+				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskVOList, null));
 			} else {
 				response = ResponseEntity.status(HttpStatus.NOT_FOUND)
 						.body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(), Messages.EMP_NOT_FOUND,
 								msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND), null, null));
 			}
-
-			response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
-					Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskList, null));
-
 		} else if (null != reporterId) {
 
 			// Get all tasks reported by this employee only
 			optEmployee = employeeRepo.findById(reporterId);
 			if (optEmployee.isPresent()) {
 				taskList = taskRepo.getEmployeeTasksByReporterId(optEmployee.get());
+				taskVOList = populateTaskVOList(taskList);
+				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskVOList, null));
 			} else {
 				response = ResponseEntity.status(HttpStatus.NOT_FOUND)
 						.body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(), Messages.EMP_NOT_FOUND,
 								msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND), null, null));
 			}
-
-			response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
-					Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskList, null));
-
 		} else if (null != statusId) {
 
 			// Get all tasks which have this task status name
 			status = statusRepo.findById(statusId).get();
 			if (null != status) {
 				taskList = taskRepo.getEmployeeTasksByStatusId(status);
+				taskVOList = populateTaskVOList(taskList);
+				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskVOList, null));
 			} else {
 				response = ResponseEntity.status(HttpStatus.NOT_FOUND)
 						.body(JsonResponse.instance(HttpStatus.NOT_FOUND.value(), Messages.STATUS_NOT_FOUND,
 								msgResolver.resolveLocalizedMessage(Messages.STATUS_NOT_FOUND), null, null));
 			}
-
-			response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
-					Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskList, null));
 		}
 
 		return response;
+	}
+	
+	private List<TaskVO> populateTaskVOList(List<Task> taskList) {
+		List<TaskVO> taskVOList = new ArrayList<>();
+		TaskVO taskVO = null;
+		for(Task task : taskList) {
+			taskVO = new TaskVO();
+			taskVO.setName(task.getName());
+			taskVO.setDescription(task.getDescription());
+			taskVO.setAssigneeId(task.getAssigneeId().getId());
+			taskVO.setReporterId(task.getReporterId().getId());
+			taskVO.setEndDate(task.getEndDate());
+			taskVO.setStartDate(task.getStartDate());
+			taskVO.setProjectCode(task.getProjectId().getProjectCode());
+			taskVO.setStatusId(task.getStatusId().getId());
+			taskVOList.add(taskVO);
+		}
+		return taskVOList;
 	}
 
 	@Override
