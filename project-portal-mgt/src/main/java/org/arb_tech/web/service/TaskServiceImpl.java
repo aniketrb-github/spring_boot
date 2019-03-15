@@ -130,33 +130,19 @@ public class TaskServiceImpl implements ITaskService {
 
 		return response;
 	}
-	
-	private List<TaskVO> populateTaskVOList(List<Task> taskList) {
-		List<TaskVO> taskVOList = new ArrayList<>();
-		TaskVO taskVO = null;
-		for(Task task : taskList) {
-			taskVO = new TaskVO();
-			taskVO.setName(task.getName());
-			taskVO.setDescription(task.getDescription());
-			taskVO.setAssigneeId(task.getAssigneeId().getId());
-			taskVO.setReporterId(task.getReporterId().getId());
-			taskVO.setEndDate(task.getEndDate());
-			taskVO.setStartDate(task.getStartDate());
-			taskVO.setProjectCode(task.getProjectId().getProjectCode());
-			taskVO.setStatusId(task.getStatusId().getId());
-			taskVOList.add(taskVO);
-		}
-		return taskVOList;
-	}
 
 	@Override
 	public ResponseEntity<?> createTask(TaskVO taskVO) throws ProjectException {
 		ResponseEntity<?> response = null;
 
 		if (null != taskVO) {
+			TaskVO taskViewObject = null;
 			Task updatedTaskEntity = this.updateOrSaveTaskEntity(taskVO, new Task());
-			response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
-					Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), updatedTaskEntity, null));
+			if (null != updatedTaskEntity) {
+				taskViewObject = populateTaskVO(updatedTaskEntity);
+				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
+						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskViewObject, null));
+			}
 		} else {
 			throw new ProjectException(msgResolver.resolveLocalizedMessage(Messages.TASK_VO_NULL));
 		}
@@ -167,14 +153,19 @@ public class TaskServiceImpl implements ITaskService {
 	@Override
 	public ResponseEntity<?> updateTask(Integer taskId, TaskVO taskVO) throws ProjectException {
 		ResponseEntity<?> response = null;
-
+		TaskVO taskViewObject = null;
+		
 		if (null != taskId && null != taskVO) {
 			Task taskEntity = taskRepo.findById(taskId).get();
 			if (null != taskEntity) {
 				Task updatedTaskEntity = this.updateOrSaveTaskEntity(taskVO, taskEntity);
-				response = ResponseEntity.status(HttpStatus.OK)
-						.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
-								msgResolver.resolveLocalizedMessage(Messages.MSG_OK), updatedTaskEntity, null));
+				if (null != updatedTaskEntity) {
+					taskViewObject = populateTaskVO(updatedTaskEntity);
+					response = ResponseEntity.status(HttpStatus.OK)
+							.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
+									msgResolver.resolveLocalizedMessage(Messages.MSG_OK), taskViewObject, null));
+				}
+
 			} else {
 				response = ResponseEntity.status(HttpStatus.OK)
 						.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.TASK_NOT_FOUND,
@@ -253,5 +244,36 @@ public class TaskServiceImpl implements ITaskService {
 			taskEntity.setDescription(taskVO.getDescription());
 
 		return taskRepo.save(taskEntity);
+	}
+	
+	private List<TaskVO> populateTaskVOList(List<Task> taskList) {
+		List<TaskVO> taskVOList = new ArrayList<>();
+		TaskVO taskVO = null;
+		for(Task task : taskList) {
+			taskVO = new TaskVO();
+			taskVO.setName(task.getName());
+			taskVO.setDescription(task.getDescription());
+			taskVO.setAssigneeId(task.getAssigneeId().getId());
+			taskVO.setReporterId(task.getReporterId().getId());
+			taskVO.setEndDate(task.getEndDate());
+			taskVO.setStartDate(task.getStartDate());
+			taskVO.setProjectCode(task.getProjectId().getProjectCode());
+			taskVO.setStatusId(task.getStatusId().getId());
+			taskVOList.add(taskVO);
+		}
+		return taskVOList;
+	}
+	
+	private TaskVO populateTaskVO(Task task) {
+		TaskVO taskVO = new TaskVO();
+		taskVO.setName(task.getName());
+		taskVO.setDescription(task.getDescription());
+		taskVO.setAssigneeId(task.getAssigneeId().getId());
+		taskVO.setReporterId(task.getReporterId().getId());
+		taskVO.setEndDate(task.getEndDate());
+		taskVO.setStartDate(task.getStartDate());
+		taskVO.setProjectCode(task.getProjectId().getProjectCode());
+		taskVO.setStatusId(task.getStatusId().getId());
+		return taskVO;
 	}
 }
