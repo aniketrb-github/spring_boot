@@ -186,7 +186,9 @@ public class TaskServiceImpl implements ITaskService {
 		if (null != taskId) {
 			taskEntity = taskRepo.findById(taskId).get();
 			if (null != taskEntity) {
-				taskRepo.delete(taskEntity);
+				// Soft Deleting the Entity
+				taskEntity.setDeleted(Boolean.TRUE);
+				taskRepo.save(taskEntity);
 				response = ResponseEntity.status(HttpStatus.OK)
 						.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.TASK_DELETE_SUCCESS,
 								msgResolver.resolveLocalizedMessage(Messages.TASK_DELETE_SUCCESS), null, null));

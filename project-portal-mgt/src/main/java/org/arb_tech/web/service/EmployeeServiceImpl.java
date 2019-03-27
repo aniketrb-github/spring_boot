@@ -181,7 +181,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		if (null != employeeId) {
 			Optional<Employee> empObj = employeeRepo.findById(employeeId);
 			if (empObj.isPresent()) {
-				employeeRepo.delete(empObj.get());
+				// Soft Deleting the Entity
+				empObj.get().setDeleted(Boolean.TRUE);
+				employeeRepo.save(empObj.get());
 				response = ResponseEntity.status(HttpStatus.OK)
 						.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
 								msgResolver.resolveLocalizedMessage(Messages.MSG_OK),

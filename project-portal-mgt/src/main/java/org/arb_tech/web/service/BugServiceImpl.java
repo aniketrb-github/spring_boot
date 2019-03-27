@@ -188,7 +188,9 @@ public class BugServiceImpl implements IBugService {
 		if (null != bugId) {
 			bugEntity = bugRepo.findById(bugId).get();
 			if (null != bugEntity) {
-				bugRepo.delete(bugEntity);
+				// Soft Deleting the Entity
+				bugEntity.setDeleted(Boolean.TRUE);
+				bugRepo.save(bugEntity);
 				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
 						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK)));
 			} else {
