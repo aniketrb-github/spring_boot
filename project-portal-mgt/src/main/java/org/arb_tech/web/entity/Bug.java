@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 /**
  * Bug entity which corresponds to table: tbl_bugs in database
  * 
@@ -18,6 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tbl_bugs")
+@Where(clause = "deleted = 0")
 public class Bug {
 	private Integer id;
 	private boolean deleted;

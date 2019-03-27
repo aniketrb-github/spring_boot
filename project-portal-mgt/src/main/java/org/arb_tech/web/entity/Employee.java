@@ -11,12 +11,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 /**
  * Employee entity which corresponds to table: tbl_employees in database
  * @author Aniket.Bharsakale
  */
 @Entity
 @Table(name = "tbl_employees")
+@Where(clause = "deleted = 0")
 public class Employee {
 	private Integer id;
 	private boolean deleted;
