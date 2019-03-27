@@ -213,24 +213,32 @@ public class TaskServiceImpl implements ITaskService {
 			project = projectRepo.getProjectByProjectCode(taskVO.getProjectCode());
 			if (null != project)
 				taskEntity.setProjectId(project);
+			else 
+				throw new ProjectPortalException(msgResolver.resolveLocalizedMessage(Messages.PROJECT_NOT_FOUND));
 		}
 
 		if (null != taskVO.getStatusId()) {
 			taskStatus = statusRepo.findById(taskVO.getStatusId()).get();
 			if (null != taskStatus)
 				taskEntity.setStatusId(taskStatus);
+			else
+				throw new ProjectPortalException(msgResolver.resolveLocalizedMessage(Messages.TASK_NOT_FOUND));
 		}
 
 		if (null != taskVO.getAssigneeId()) {
 			optAssignee = employeeRepo.findById(taskVO.getAssigneeId());
 			if (optAssignee.isPresent())
 				taskEntity.setAssigneeId(optAssignee.get());
+			else 
+				throw new ProjectPortalException(msgResolver.resolveLocalizedMessage("Assignee "+Messages.EMP_NOT_FOUND));
 		}
 
 		if (null != taskVO.getReporterId()) {
 			optReporter = employeeRepo.findById(taskVO.getReporterId());
 			if (optReporter.isPresent())
 				taskEntity.setReporterId(optReporter.get());
+			else 
+				throw new ProjectPortalException(msgResolver.resolveLocalizedMessage("Reporter "+Messages.EMP_NOT_FOUND));
 		}
 
 		if (null != taskVO.getStartDate())

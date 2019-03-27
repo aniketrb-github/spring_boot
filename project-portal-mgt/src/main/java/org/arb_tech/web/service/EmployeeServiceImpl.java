@@ -146,7 +146,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 					empEntity.setJoiningDate(employeeVO.getJoiningDate());
 
 				if (null != employeeVO.getProjectCode()) {
-
+					// Update only if projectCode is found different
 					if (!empEntity.getProjectId().getProjectCode().equals(employeeVO.getProjectCode())) {
 						Project project = projectRepo.getProjectByProjectCode(employeeVO.getProjectCode());
 						if (null != project) {

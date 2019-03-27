@@ -233,7 +233,7 @@ public class BugServiceImpl implements IBugService {
 			if (null != employee) {
 				bugEntity.setAssigneeId(employee);
 			} else {
-				throw new ProjectPortalException(msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND));
+				throw new ProjectPortalException(msgResolver.resolveLocalizedMessage("Assignee "+Messages.EMP_NOT_FOUND));
 			}
 		}
 
@@ -242,7 +242,7 @@ public class BugServiceImpl implements IBugService {
 			if (null != employee) {
 				bugEntity.setReporterId(employee);
 			} else {
-				throw new ProjectPortalException(msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND));
+				throw new ProjectPortalException(msgResolver.resolveLocalizedMessage("Reporter "+Messages.EMP_NOT_FOUND));
 			}
 		}
 
