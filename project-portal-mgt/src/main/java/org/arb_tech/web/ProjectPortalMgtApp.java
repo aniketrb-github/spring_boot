@@ -9,6 +9,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 /**
  * Entry point of this web based application
+ * 
  * @author Aniket.Bharsakale
  */
 @SpringBootApplication
@@ -17,7 +18,7 @@ public class ProjectPortalMgtApp {
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectPortalMgtApp.class, args);
 	}
-	
+
 	@Bean
 	public MessageSource messageSource() {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
@@ -26,4 +27,3 @@ public class ProjectPortalMgtApp {
 		return messageSource;
 	}
 }
-
