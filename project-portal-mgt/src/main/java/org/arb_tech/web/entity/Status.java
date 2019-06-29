@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 /**
  * Status entity which corresponds to table: tbl_status in database
  * OPEN, IN PROGRESS, RESOLVED, CLOSED
@@ -15,6 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tbl_status")
+@Where(clause = "deleted = 0")
 public class Status {
 	private Integer id;
 	private boolean deleted;

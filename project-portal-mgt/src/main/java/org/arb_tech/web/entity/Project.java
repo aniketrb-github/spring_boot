@@ -9,12 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 /**
  * Project entity which corresponds to table: tbl_projects in database
  * @author Aniket.Bharsakale
  */
 @Entity
 @Table(name = "tbl_projects")
+@Where(clause = "deleted = 0")
 public class Project {
 
 	private Integer id;

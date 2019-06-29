@@ -188,7 +188,9 @@ public class BugServiceImpl implements IBugService {
 		if (null != bugId) {
 			bugEntity = bugRepo.findById(bugId).get();
 			if (null != bugEntity) {
-				bugRepo.delete(bugEntity);
+				// Soft Deleting the Entity
+				bugEntity.setDeleted(Boolean.TRUE);
+				bugRepo.save(bugEntity);
 				response = ResponseEntity.status(HttpStatus.OK).body(JsonResponse.instance(HttpStatus.OK.value(),
 						Messages.MSG_OK, msgResolver.resolveLocalizedMessage(Messages.MSG_OK)));
 			} else {
@@ -231,7 +233,7 @@ public class BugServiceImpl implements IBugService {
 			if (null != employee) {
 				bugEntity.setAssigneeId(employee);
 			} else {
-				throw new ProjectPortalException(msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND));
+				throw new ProjectPortalException(msgResolver.resolveLocalizedMessage("Assignee "+Messages.EMP_NOT_FOUND));
 			}
 		}
 
@@ -240,7 +242,7 @@ public class BugServiceImpl implements IBugService {
 			if (null != employee) {
 				bugEntity.setReporterId(employee);
 			} else {
-				throw new ProjectPortalException(msgResolver.resolveLocalizedMessage(Messages.EMP_NOT_FOUND));
+				throw new ProjectPortalException(msgResolver.resolveLocalizedMessage("Reporter "+Messages.EMP_NOT_FOUND));
 			}
 		}
 

@@ -130,7 +130,9 @@ public class ProjectServiceImpl implements IProjectService {
 		if (null != projectId) {
 			Optional<Project> object = projectRepo.findById(projectId);
 			if (object.isPresent()) {
-				projectRepo.delete(object.get());
+				// Soft Deleting the Entity
+				object.get().setDeleted(Boolean.TRUE);
+				projectRepo.save(object.get());
 				response = ResponseEntity.status(HttpStatus.OK)
 						.body(JsonResponse.instance(HttpStatus.OK.value(), Messages.MSG_OK,
 								msgResolver.resolveLocalizedMessage(Messages.MSG_OK),
