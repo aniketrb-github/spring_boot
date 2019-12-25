@@ -1,16 +1,14 @@
-# Technology Stack required for this projects is mentioned below
-1) Requires MySQL 5.6 or above external Database.
-2) JDK & JRE 1.8 above.
-3) STS IDE or Eclipse IDE will be helpfull for the project setup & development.
-4) POSTMAN API Client is used to invoke the Rest API endpoints that are created in this project.
-5) MySQL Workbench v6.3 & above will help for viewing the database schema, tables, data & perform any other operations.
-6) Spring Boot Framework is used in this project development. its prefered & recommended to use.
-7) This brings Spring Data/JPA into picture too.
-8) No external application server is required. Since we're using Spring Boot, this framework provides us with embedded Apache Tomcat.
+# Tools & technology stack required for this projects is mentioned below :-
+1) MySQL v5.6 or above version external database.
+2) JDK 1.8 and JRE 1.8 above required.
+3) STS/Eclipse IDE will be helpful for the project setup & development.
+4) POSTMAN API client is used to invoke the REST API end-points that are created in this project.
+5) MySQL workbench v6.3 & above will help for viewing the database schema, tables, data & perform any other operations.
+6) Spring boot framework is used in this project development which brings Spring Data/JPA in picture as well.
+7) Embedded Apache tomcat server is used which Spring boot provides via its framework.
 
-# In application.properties, initially this value will be - spring.jpa.hibernate.ddl-auto = create
-# This is for the creation of tables in database. Later change the value to : update -> spring.jpa.hibernate.ddl-auto = update
+# In the file 'application.properties' the value will be - spring.jpa.hibernate.ddl-auto = "create" for the first time
+# This is for the creation of tables in database. Later change the value from "create" -> "update"
 # Also view pom.xml for more details.
 
-# Use Postman for invoking the GET, PUT, POST, DELETE API's of this project.
-# POSTMAN is a REST API Client wherein you can invoke REST API's of any RESTful Application with expected credentials and params
+# Use Postman API client for invoking the various end-points created in this project.
