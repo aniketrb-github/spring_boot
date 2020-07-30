@@ -11,11 +11,11 @@ A portal which facilitates you with ease, flexibility & robustness for managing 
 7) Embedded Apache tomcat server is used which is special feature provided by Spring boot itself.
 8) Using Embedded Server avoids the need of adding a server explicitly & externally which makes development more easier.
 
-# In file: 'application.properties' the value for the property: spring.jpa.hibernate.ddl-auto = "create" for the first time
-# The above mentioned tip is just for the creation of tables in your database. Later you can change the value from "create" -> "update"
-# If the above mentioned property is not updated, it will result in creating new tables in database each time you start your server.
-# Also view pom.xml for more detailed documentation & explanation regarding all used dependencies.
-# Use Postman API client for invoking the various end-points created in this project.
+# Few Helpful Tips
+In file: 'application.properties' the value for the property: spring.jpa.hibernate.ddl-auto = "create" for the first time
+The above mentioned tip is just for the creation of tables in your database. Later you can change the value from "create" -> "update"
+If the above mentioned property is not updated, it will result in creating new tables in database each time you start your server.
+Also view pom.xml for more detailed documentation & explanation regarding all used dependencies.
+Use Postman API client for invoking the various end-points created in this project.
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+# License: [MIT](https://choosealicense.com/licenses/mit/)
