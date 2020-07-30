@@ -1,4 +1,4 @@
-Project Portal Management
+# Project Portal Management
 A portal which facilitates you with ease, flexibility & robustness for managing your projects.
 
 # Tools & technology stack required for this projects is mentioned below :-
@@ -18,4 +18,13 @@ If the above mentioned property is not updated, it will result in creating new t
 Also view pom.xml for more detailed documentation & explanation regarding all used dependencies.
 Use Postman API client for invoking the various end-points created in this project.
 
-# License: [MIT](https://choosealicense.com/licenses/mit/)
+# Usage
+Modify the configuration to suit your preferences.
+
+# Contributing
+Pull requests are welcome. 
+For major changes, please open an issue first to discuss what you would like to change.
+Also, Please ensure to update tests appropriately.
+
+# LICENSE: 
+[MIT LICENSE](https://choosealicense.com/licenses/mit/)
