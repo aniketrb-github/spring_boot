@@ -12,17 +12,17 @@ A portal which facilitates you with ease, flexibility & robustness for managing 
 8) Using Embedded Server avoids the need of adding a server explicitly & externally which makes development more easier.
 
 # Few Helpful Tips
-In file: 'application.properties' the value for the property: spring.jpa.hibernate.ddl-auto = "create" for the first time
-The above mentioned tip is just for the creation of tables in your database. Later you can change the value from "create" -> "update"
-If the above mentioned property is not updated, it will result in creating new tables in database each time you start your server.
-Also view pom.xml for more detailed documentation & explanation regarding all used dependencies.
-Use Postman API client for invoking the various end-points created in this project.
+1) In file: 'application.properties' the value for the property: spring.jpa.hibernate.ddl-auto = "create" for the first time
+2) The above mentioned tip is just for the creation of tables in your database. Later you can change the value from "create" -> "update"
+3) If the above mentioned property is not updated, it will result in creating new tables in database each time you start your server.
+4) Also, view pom.xml for more detailed documentation & explanation regarding all used dependencies.
+5) Use Postman API client for invoking the various end-points created in this project.
 
 # Usage
 Modify the configuration to suit your preferences.
 
 # Contributing
-Pull requests are welcome. 
+Pull requests are welcome.
 For major changes, please open an issue first to discuss what you would like to change.
 Also, Please ensure to update tests appropriately.
 
