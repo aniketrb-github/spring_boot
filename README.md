@@ -1,6 +1,5 @@
-`# Spring Boot Repository'
-- This repo. will specifically be used to hold the demo projects, P.O.C implementations wherein we have used spring boot majorly.
-
+`# Spring Boot Repository`
+- This repo. will be used specifically for demo projects and other P.O.C implementations wherein we will use spring boot majorly.
 
 `# System Requirements`
 1) Java 8: You can download it from here: [Java-8 Download Link](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
