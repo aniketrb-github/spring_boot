@@ -2,16 +2,16 @@
 A portal which facilitates you with ease, flexibility & robustness for managing your projects.
 
 # System Requirements
-1) Java 8: You can download it from here: `[Java-8 Download Link]`(https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 
+1) Java 8: You can download it from here: [Java-8 Download Link](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 
 After successful installation, execute "java -version" on your command prompt which should display the current version of java.
 
 2) Integrated Development Environment for Java development: 
-Download the latest Spring tool suite version according to your Oprating system available from here: `[STS Download Link]`(https://spring.io/tools)
+Download the latest Spring tool suite version according to your Oprating system available from here: [STS Download Link](https://spring.io/tools)
 
-3) Git: If you don't have git installed, Here's the link: `[Download Link for Git]`(https://git-scm.com/downloads)
+3) Git: If you don't have git installed, Here's the link: [Download Link for Git](https://git-scm.com/downloads)
 After successful installation, execute "git –version" on your command prompt to check the current installed version.
 
-4) MySQL Installer: `[Download link for MySQL Installer]`(https://dev.mysql.com/downloads/installer/)
+4) MySQL Installer: [Download link for MySQL Installer](https://dev.mysql.com/downloads/installer/)
 Once you download it, you get to choose the tools/softwares you require to download from the dashboard mysql installer provides you.
 You should then select appropraite settings & get your MySQL Server as well as the MySQL Workbench via the installer.
 
