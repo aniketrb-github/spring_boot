@@ -28,7 +28,7 @@
 3) Spring tool suite(STS)/Eclipse IDE will be helpful for the project setup & development.
 4) POSTMAN API client is used to invoke the REST API end-points that are created in this project.
 5) MySQL workbench v6.3 & above will help you to view the database schema, tables, data & perform any other operations.
-6) Spring boot framework is used primarily fpr all API development which brings Spring Data/JPA in picture as well.
+6) Spring boot framework is used primarily for all API development which brings Spring Data/JPA in picture as well.
 7) Embedded Apache tomcat server is used which is special feature provided by Spring boot itself.
 8) Using Embedded Server avoids the need of adding a server explicitly, wherein we all had to externally download it & add it earlier.
 
