@@ -1,12 +1,12 @@
 `# Project Portal Management`
 - A portal which facilitates you with ease, flexibility & robustness for managing your projects.
-- A mini-project for the the usage & demonstration of spring-boot in an effective way.
+- A mini-project for the usage & demonstration of spring-boot in an effective way.
 - Spring M.V.C is the design pattern most primarily used in this project to start with.
 - Also segregation concerns are induced by creating packages for layers like Controller, Service, Data Access Objects(DAO), Entities, Exceptions, Utilities & View Objects(VO)
-- Java OOPS concepts as well as the Exception Handling with high level of segregation, modularity & sepration of concerns are being intricated.
+- Java OOPS concepts as well as the Exception Handling with high level of segregation, modularity & separation of concerns are being implemented.
 - Moreover, Spring-Data-JPA usage is also demonstrated in this mini-project.
-- Also, messages_en_IN.properties is used for maintaining the common constant message at a place & reusing them in the entire application.
-- Logging of messages at various levels(WARN/INFO/ERROR) etc. are also being used using the logback.xml
+- Also, 'messages_en_IN.properties' is used for maintaining the common constant message at a place & reusing them in the entire application.
+- Logging of messages at various levels(WARN/INFO/ERROR) etc. are also being used using the 'logback.xml'
 
 `# System Requirements`
 1) Java 8: You can download it from here: [Java-8 Download Link](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
@@ -19,8 +19,8 @@
 - After successful installation, execute "git –version" on your command prompt to check the current installed version.
 
 4) MySQL Installer: [Download link for MySQL Installer](https://dev.mysql.com/downloads/installer/)
-- Once you download it, you get to choose the tools/softwares you require to download from the dashboard mysql installer provides you.
-- You should then select appropraite settings & get your MySQL Server as well as the MySQL Workbench via the installer.
+- Once you download it, you get to choose the tools/software's you require to download from the dashboard MySQL installer provides you.
+- You should then select appropriate settings & get your MySQL Server as well as the MySQL Workbench via the installer.
 
 `# Tools & technology stack required for this projects is mentioned below :-`
 1) An External database was used namely: MySQL v5.6(any latest MySQL version will do)
@@ -47,5 +47,5 @@ Modify the configuration settings to suit your preferences as per your needs & r
 - For major changes, please open an issue first to discuss what you would like to change.
 - Also, Please ensure to update tests appropriately.
 
-`# LICENSE: `
+`# LICENSE:`  
 [MIT LICENSE](https://choosealicense.com/licenses/mit/)
